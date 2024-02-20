@@ -1,22 +1,22 @@
 //在form与table配置中，yao可以只配置简单的与模型的绑定关系就能带出所有的配置，
 //但是这些配置都是默认项，一般情况是够用了，如果需要更多的配置，就需要手动修改配置文件。
-function MakeDefaultTable(table) {
-  let filename = `tables/${table.split(".").join("/")}.tab.json`;
+function MakeDefaultTable(modelId) {
+  let filename = `tables/${modelId.split(".").join("/")}.tab.yao`;
   let fs = new FS("dsl");
   let default1 = {
-    name: table,
+    name: "::" + modelId,
     action: {
       bind: {
-        model: table,
+        model: modelId,
         option: {
           withs: {},
-          form: table, //有form才会生成创建按钮
+          form: modelId, //有form才会生成创建按钮
         },
       },
     },
   };
   if (!fs.Exists(filename)) {
-    let paths = `tables/${table.split(".").join("/")}`.split("/");
+    let paths = `tables/${modelId.split(".").join("/")}`.split("/");
     paths.pop();
     let folder = paths.join("/");
     fs.MkdirAll(folder);
@@ -27,14 +27,14 @@ function MakeDefaultTable(table) {
     return true;
   }
 }
-function MakeDefaultForm(form) {
-  let filename = `forms/${form.split(".").join("/")}.form.json`;
+function MakeDefaultForm(modelId) {
+  let filename = `forms/${modelId.split(".").join("/")}.form.yao`;
   let fs = new FS("dsl");
   let default1 = {
-    name: form,
+    name: "::" + modelId,
     action: {
       bind: {
-        model: form,
+        model: modelId,
         option: {
           withs: {},
         },
@@ -42,7 +42,7 @@ function MakeDefaultForm(form) {
     },
   };
   if (!fs.Exists(filename)) {
-    let paths = `tables/${form.split(".").join("/")}`.split("/");
+    let paths = `tables/${modelId.split(".").join("/")}`.split("/");
     paths.pop();
     let folder = paths.join("/");
     fs.MkdirAll(folder);
@@ -55,30 +55,30 @@ function MakeDefaultForm(form) {
 }
 /**
  * 初始化表格的配置文件。
- * @param table 表格名称
+ * @param modelId 表格名称
  */
-function CreateTable(table) {
-  const exist = MakeDefaultTable(table);
+function CreateTable(modelId) {
+  const exist = MakeDefaultTable(modelId);
   if (exist == false) {
     console.log("需要生成全配置Table,请再执行一次命令");
     return;
   }
   //如果不存在，需要执行两次，要不然yao.table.Setting无法加载文件
-  let filename = `tables/${table.split(".").join("/")}.tab.json`;
-  // let table_file = `tables/${table.split(".").join("/")}.tab.json`;
-  let setting = Process("yao.table.Setting", table);
+  let filename = `tables/${modelId.split(".").join("/")}.tab.yao`;
+  // let table_file = `tables/${table.split(".").join("/")}.tab.yao`;
+  let setting = Process("yao.table.Setting", modelId);
   if (setting.code && setting.message) {
     throw new Exception(setting.message, setting.code);
   }
   delete setting["hooks"];
   //重新近排布局
   let newTable = {
-    name: table,
+    name: "::" + modelId,
     action: {
       bind: {
-        model: table,
+        model: modelId,
         option: {
-          form: table,
+          form: modelId,
           withs: {},
         },
       },
@@ -100,7 +100,7 @@ function CreateTable(table) {
       {
         type: "Common.historyPush",
         payload: {
-          pathname: `/x/Form/${table}/0/edit`,
+          pathname: `/x/Form/${modelId}/0/edit`,
         },
         name: "HistoryPush",
       },
@@ -140,24 +140,24 @@ function CreateTable(table) {
     fs.MkdirAll(folder.join("/"));
   }
   let rc = fs.WriteFile(
-    filename.slice(0, -4) + "default.json",
+    filename.slice(0, -3) + "default.yao",
     JSON.stringify(newTable)
   );
   console.log(rc);
 }
 /**
  * 创建表单的配置文件，适用于初始化表单配置
- * @param form 表单名称
+ * @param modelId 表单名称
  */
-function CreateForm(form) {
-  const exist = MakeDefaultForm(form);
+function CreateForm(modelId) {
+  const exist = MakeDefaultForm(modelId);
   if (exist == false) {
     console.log("需要生成全配置Form,请再执行一次");
     return;
   }
   //如果不存在，需要执行两次，要不然yao.form.Setting无法加载文件
-  let filename = `forms/${form.split(".").join("/")}.form.json`;
-  let setting = Process("yao.form.Setting", form);
+  let filename = `forms/${modelId.split(".").join("/")}.form.yao`;
+  let setting = Process("yao.form.Setting", modelId);
   // createSetting(setting, filename);
   if (setting.code && setting.message) {
     throw new Exception(setting.message, setting.code);
@@ -165,10 +165,10 @@ function CreateForm(form) {
   delete setting["hooks"];
   let newForm = {
     //{ [key: string]: any } = {
-    name: form,
+    name:  "::" + modelId,
     action: {
       bind: {
-        model: form,
+        model: modelId,
         option: {},
       },
     },
@@ -245,7 +245,7 @@ function CreateForm(form) {
         {
           name: "Delete",
           payload: {
-            model: form,
+            model: modelId,
           },
           type: "Form.delete",
         },
@@ -264,7 +264,7 @@ function CreateForm(form) {
     fs.MkdirAll(folder.join("/"));
   }
   let rc = fs.WriteFile(
-    filename.slice(0, -4) + "default.json",
+    filename.slice(0, -3) + "default.yao",
     JSON.stringify(newForm)
   );
   console.log(rc);
@@ -318,6 +318,119 @@ function CreateTableAndForm(model) {
   CreateTable(model);
   CreateForm(model);
 }
+
+/**
+ * 扁平化模型列表
+ * @param {object} models yao 模型 嵌套的数据结构
+ * @param {string} attr,使用路径表达式抽取子对象
+ * @returns
+ */
+function FlatModelList(models, attr) {
+  const list = [];
+
+  const getProperty = (object, path) => {
+    const properties = path.split(".");
+    let currentObject = object;
+
+    for (let i = 0; i < properties.length; i++) {
+      currentObject = currentObject[properties[i]];
+    }
+    return currentObject;
+  };
+
+  const setProperty = (object, path, value) => {
+    const properties = path.split(".");
+    let currentObject = object;
+
+    for (let i = 0; i < properties.length - 1; i++) {
+      if (currentObject === undefined) {
+        throw new Error(
+          `Property '${properties[i]}' does not exist in path '${path}'`
+        );
+      }
+      //   注意，不支持生成数组
+      if (!currentObject.hasOwnProperty(properties[i])) {
+        currentObject[properties[i]] = {};
+      }
+      currentObject = currentObject[properties[i]];
+    }
+
+    currentObject[properties[properties.length - 1]] = value;
+  };
+  let attr2 = [];
+  if (typeof attr === "string") {
+    // 单个属性
+    attr2 = attr.split(",");
+  } else if (Array.isArray(attr)) {
+    attr2 = attr;
+  }
+  const traverse = (node) => {
+    if (node.children) {
+      traverse(node.children);
+    } else if (node.data) {
+      if (attr != null) {
+        const o = {};
+        attr2.forEach((a) => {
+          const p = getProperty(node.data, a);
+          if (p != null) {
+            // o[a] = p;
+            setProperty(o, a, p);
+          }
+        });
+        list.push(o);
+      } else {
+        list.push(node.data);
+      }
+    } else if (Array.isArray(node)) {
+      node.forEach((line) => {
+        traverse(line);
+      });
+    }
+  };
+  traverse(models);
+  return list;
+}
+/**
+ * 根据模型ID在缓存中查找模型定义
+ * yao studio run init.FindCachedModelById
+ * @param {Array} models 模型缓存，保存了所有的模型定义
+ * @param {number/string} id 模型标识
+ * @returns object | null
+ */
+function FindCachedModelById(modelId) {
+  const models = Process("widget.models");
+
+  const traverse = (node, id) => {
+    if (node.children) {
+      return traverse(node.children, id);
+    } else if (node.data) {
+      if (node.data.ID == id) {
+        return node.data;
+      }
+    } else if (Array.isArray(node)) {
+      for (const item of node) {
+        var obj = traverse(item, id);
+        if (obj) {
+          return obj;
+        }
+      }
+    }
+  };
+
+  return traverse(models, modelId);
+}
+/**
+ * yao studio run init.CreateTableAndFormForAll
+ */
+function CreateTableAndFormForAll(){
+  const models = Process("widget.models");
+
+  const modelIdlist = FlatModelList(models,"ID").map((item) => item.ID)
+
+  modelIdlist.forEach(m=>{
+    CreateTableAndForm(m)
+  })
+}
 //如果不存在，需要执行两次，要不然yao无法加载文件
 //直接ts执行
 // CreateTable("chat.prompt_template1");
@@ -327,3 +440,5 @@ function CreateTableAndForm(model) {
 // yao studio run init.CreateTable supplier
 // yao studio run init.CreateForm supplier
 // yao studio run init.CreateTableAndForm supplier
+// 创建所有
+// yao studio run init.CreateTableAndFormForAll
