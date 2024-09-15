@@ -11,6 +11,8 @@
     "lib": ["ESNEXT", "DOM"],
     "outDir": "dist",
     "skipLibCheck": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "types": ["jest"]
+
   }
 }
