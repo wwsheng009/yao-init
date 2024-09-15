@@ -1,3 +1,4 @@
+import {Process,log,Exception} from '@yao/yao'
 /**
  * before:data hook
  * @cmd  yao run scripts.stat.BeforeData '::{}'
@@ -40,15 +41,13 @@ function Income(field, value, data) {
 function OnChange(query) {
   // 进入onchange事件
   query = query || {};
-  field = query.key;
-  newVal = query.value;
-  oldVal = query.old;
+  let field = query.key;
+  let newVal = query.value;
+  let oldVal = query.old;
 
-  let data = { query: query };
+  let data = { query: query,cost:2000 };
   if (newVal == "cat") {
     data.cost = 1000;
-  } else {
-    data.cost = 2000;
   }
 
   let setting = Process("yao.form.Setting", "demo.pet");

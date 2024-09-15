@@ -1,3 +1,6 @@
 .env
 logs
 db
+node_modules
+dist
+pnpm-lock.yaml

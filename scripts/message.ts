@@ -1,3 +1,4 @@
+import {Process} from '@yao/yao'
 /**
  * 事件广播服务器 WebSocket
  * Websocket Server event @/apis/message.ws.json

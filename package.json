@@ -1,0 +1,20 @@
+{
+  "name": "yao-init",
+  "type": "commonjs",
+  "version": "1.0.0",
+  "description": "yao application for nodejs usage",
+  "main": "index.js",
+  "scripts": {
+    
+  },
+  "keywords": [],
+  "author": "vincentwwsheng@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.5.5",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "dependencies": {
+    "@yaoapps/client": "npm:yao-node-client@^1.0.8"
+  }
+}

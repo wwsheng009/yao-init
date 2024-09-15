@@ -1,6 +1,9 @@
+import {Process,Exception} from '@yao/yao'
+
+
 function Chat(path, params, query, payload, headers) {
   query = query || {};
-  token = query.token || "";
+  let token = query.token || "";
   token = token[0] || "";
   token = token.replace("Bearer ", "");
   if (token == "" || token.length == 0) {

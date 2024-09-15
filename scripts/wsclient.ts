@@ -1,3 +1,4 @@
+import {WebSocket} from '@yao/yao'
 /**
  * yao js web socket client
  * 发送通知
