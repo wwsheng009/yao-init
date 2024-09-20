@@ -6,36 +6,42 @@
 
 文档: [https://yaoapps.com/doc](https://yaoapps.com/doc)
 
-## 适用于 0.10.3 的 yao 应用程序
+## 适用于 0.10.4 的 yao 应用程序
 
 内置了`json-schema`检验，使用`vscode`编辑器，在编辑配置文件时会有自动的提示与字段说明。
 
 **注**：需要`vscode`连接`github`
 
-## 0.10.3 开发版本的 yao 下载
+## 使用Typescript开发
 
-在以下地址下载开发版本 0.10.3 开发版本，根据自己的电脑 OS，打开对应的 URL，找到一个最新的 release
+在使用最新版本的yao进行开发时，可以使用ts脚本代替js脚本。这个项目模板已经配置好了ts脚本的开发所需要的必要配置，可以像其它nodejs项目一样使用调试功能。
+```sh
+pnpm i
+```
+
+在高度项目之前，需要另开一个终端窗口执行以下命令。
+```sh
+yao start
+```
+
+## 0.10.4 开发版本的 yao 下载
+
+在以下地址下载开发版本 0.10.4 开发版本，根据自己的电脑 OS，打开对应的 URL，找到一个最新的 release
 
 Linux:
 
 https://github.com/YaoApp/yao/actions/workflows/release-linux.yml
 
-示例:
-
-https://github.com/YaoApp/yao/actions/runs/4321507316
 
 MacOS:
 
 https://github.com/YaoApp/yao/actions/workflows/release-macos.yml
 
-示例：
-
-https://github.com/YaoApp/yao/actions/runs/4321507798
 
 ## 启动 yao
 
 ```sh
-git clone --depth 1 https://github.com/wwsheng009/yao-init-0.10.3.git my-yao-app
+git clone --depth 1 https://github.com/wwsheng009/yao-init.git my-yao-app
 
 cd my-yao-app
 
@@ -46,7 +52,7 @@ yao start
 
 ```sh
 ---------------------------------
-Yao Application Setup v0.10.3
+Yao Application Setup v0.10.4
 ---------------------------------
 
 Open URL in the browser to continue:
@@ -83,6 +89,8 @@ _注意，只有执行目录下没有.env 文件并且数据库为空时才会�
 | YAO_SESSION_FILE  | 会话文件地址 `file`或 `redis`                                    | `db/.session`            |
 | YAO_STUDIO_PORT   | Studio API 服务端口默认为 `5077`                                 | `5077`                   |
 | OPENAI_KEY        | OPENAI API KEY, 可在连接器中更换变量名。 启用 Neo 或 AIGC 必须。 | `sk-xxx`                 |
+| YAO_APP_PROXY_ENDPOINT        | 调试项目时需要配置yao服务地址。 | `http://localhost:5099/api/proxy/call`                 |
+| YAO_API_ACCESS_KEY        | 调试项目时需要配置的API key。 | `123456`                 |
 
 ## 详细文档说明
 
