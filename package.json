@@ -1,6 +1,6 @@
 {
   "name": "yao-init-template",
-  "type": "commonjs",
+  "type": "module",
   "version": "1.0.0",
   "description": "yao application for nodejs usage",
   "main": "index.js",

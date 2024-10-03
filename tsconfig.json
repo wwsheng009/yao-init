@@ -1,16 +1,36 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "esModuleInterop": true,
-    "target": "ES2022",
+    "allowJs": true,
+    "target": "ESNext",
     "paths": {
-      "@yao/*": ["./scripts/__types/*"],
-      "@lib/*": ["./scripts/runtime/ts/lib/*"]
+      "@yao/*": [
+        "./scripts/__types/*"
+      ],
+      "@lib/*": [
+        "./scripts/lib/*"
+      ],
+      "@scripts/*": [
+        "./scripts/*"
+      ]
     },
-    "lib": ["ESNEXT", "DOM"],
+    "lib": [
+      "ESNEXT",
+      "DOM"
+    ],
     "outDir": "dist",
     "skipLibCheck": true,
     "sourceMap": true
-  }
+  },
+  "exclude": [
+    "dist",
+    "node_modules"
+  ],
+  "include": [
+    "./scripts/**/*",
+    "./services/**/*",
+    "./studio/**/*"
+  ]
 }
