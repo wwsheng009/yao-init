@@ -6,10 +6,11 @@
   "guard": "-",
   "paths": [
     {
-      "guard": "scripts.security.CheckAccessKey",
+      // /api/proxy/call
+      "guard": "scripts.debug.security.CheckAccessKey",
       "path": "/call",
       "method": "POST",
-      "process": "scripts.jsproxy.Server",
+      "process": "scripts.debug.jsproxy.Server",
       "in": [":payload"],
       "out": {
         "status": 200,
