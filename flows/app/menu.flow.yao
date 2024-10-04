@@ -31,15 +31,6 @@
     ],
     "items": [
       {
-        "parent": null,
-        "path": "/iframe?src=/yao/builder?page=demo/website/index",
-        "visible_menu": 0,
-        "blocks": 0,
-        "icon": "icon-activity",
-        "id": 1,
-        "name": "Builder"
-      },
-      {
         "blocks": 0,
         "icon": "icon-book",
         "name": "演示",
