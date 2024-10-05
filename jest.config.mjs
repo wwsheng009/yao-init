@@ -1,5 +1,5 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} **/
-module.exports = {
+export default {
   preset: 'ts-jest',
   testEnvironment: 'node', // 可选择其他环境，如jsdom for browser-like tests
   roots: ['<rootDir>/scripts'], // 指定查找源码的根目录

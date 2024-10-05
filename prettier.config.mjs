@@ -1,4 +1,3 @@
-// prettier.config.cjs
 /**
  * @type {import('prettier').Config}
  * @see https://www.prettier.cn/docs/options.html
