@@ -27,16 +27,11 @@ yao start
 
 ## 0.10.4 开发版本的 yao 下载
 
-在以下地址下载开发版本 0.10.4 开发版本，根据自己的电脑 OS，打开对应的 URL，找到一个最新的 release
+Yao下载地址：
 
 Linux:
 
-https://github.com/YaoApp/yao/actions/workflows/release-linux.yml
-
-
-MacOS:
-
-https://github.com/YaoApp/yao/actions/workflows/release-macos.yml
+https://github.com/wwsheng009/yao/releases/tag/yao-0.10.4
 
 
 ## 启动 yao

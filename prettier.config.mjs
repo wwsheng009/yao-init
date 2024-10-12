@@ -41,5 +41,5 @@ export default {
   experimentalTernaries: false,
   bracketSameLine: false,
   vueIndentScriptAndStyle: false,
-  singleAttributePerLine: false,
+  singleAttributePerLine: false
 };

@@ -1,6 +1,13 @@
-.env
 logs
-db
+.trash
+*.db
+*.session
+.env
+app.yao
 node_modules
-dist
+*.so
+*.dll
 pnpm-lock.yaml
+dist
+package-lock.json
+yarn.lock
