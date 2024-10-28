@@ -13,7 +13,7 @@
   "license": "MIT",
   "devDependencies": {
     "@yaoapps/client": "npm:yao-node-client@^1.1.2",
-    "@yaoapps/types": "npm:yao-app-ts-types@^1.0.8",
+    "@yaoapps/types": "npm:yao-app-ts-types@^1.1.1",
     "@eslint/js": "^9.10.0",
     "@stylistic/eslint-plugin": "^2.8.0",
     "@types/jest": "^29.5.13",
