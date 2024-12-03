@@ -1,4 +1,4 @@
-import {WebSocket,Process,log} from '@yao/yao'
+import {WebSocket,Process,log} from '@yao/runtime'
 
 //yao web socket 客户端
 

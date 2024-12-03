@@ -1,4 +1,4 @@
-import {Process,Exception} from '@yao/yao'
+import {Process,Exception} from '@yao/runtime'
 
 
 function Chat(path, params, query, payload, headers) {

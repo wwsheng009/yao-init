@@ -1,4 +1,4 @@
-import {Process} from '@yao/yao'
+import {Process} from '@yao/runtime'
 /**
  * 看板数据
  * @cmd yao run scripts.dash.Data

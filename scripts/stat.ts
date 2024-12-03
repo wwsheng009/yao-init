@@ -1,4 +1,4 @@
-import {Process,log,Exception} from '@yao/yao'
+import {Process,log,Exception} from '@yao/runtime'
 /**
  * before:data hook
  * @cmd  yao run scripts.stat.BeforeData '::{}'
@@ -50,7 +50,7 @@ function OnChange(query) {
     data.cost = 1000;
   }
 
-  let setting = Process("yao.form.Setting", "demo.pet");
+  let setting = Process("yao.form.Setting", "tests.pet");
 
   if (setting && setting.code && setting.message) {
     throw new Exception(setting.message, 500);

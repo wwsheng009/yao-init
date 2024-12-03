@@ -1,21 +1,75 @@
 {
-  "name": "::Demo Application",
-  "short": "::Demo",
-  "description": "::Another yao application",
-  "version": "0.10.4",
-  "adminRoot": "admin",
-  "setup": "scripts.setup.Data",
+  "name": "Demo Application", // The name of the application
+  "short": "Demo", // The short name of the application
+  "description": "Another yao application", // The application description
+  "version": "0.10.4", // The application version
+  "adminRoot": "admin", // The admin panel root path, default is "admin"
+  /**
+   * Hook: setup
+   * The setup script to be executed when the installation is completed.
+   * It's useful for setting up the initial data for the application.
+   */
+  "setup": "scripts.tests.AppSetup",
+  /**
+   * Hook: afterLoad
+   * new feature of the yao v0.10.4
+   * The script to be executed after the application is loaded.
+   * It's useful for dynamic loading  DSLs before the http server starts.
+   */
+  "afterLoad": "scripts.tests.AppAfterLoad",
+  /**
+   * Hook: afterMigrate
+   * new feature of the yao v0.10.4
+   * The script to be executed after the application is migrated.
+   * It's useful for setting up the initial data when `yao migrate` is executed
+   */
+  "afterMigrate": "scripts.tests.AppAfterMigrate",
   "menu": {
     "process": "flows.app.menu"
   },
-  "moapi": {
-    "secret": "sk-",
-    "mirrors": [
-      "api.openai.com"
+  /**
+   * This is a new feature of the yao v0.10.4
+   * The Http Server Root Directory Configuration ( Optional )
+   */
+  "public": {
+    /**
+     * The public backend script source root mapping to the real source root
+     * The key is the public root and the value is the real source root
+     * For development mode only, It's useful for SUI backend script development
+     */
+    "sourceRoots": {
+      "/public": "/data/templates/default"
+    },
+    // For routing SUI web pages
+    "rewrite": [
+      {
+        "^\\/assets\\/(.*)$": "/assets/$1"
+      }, // SUI assets
+      {
+        "^\\/(.*)$": "/$1.sui"
+      } // File system route
     ]
   },
+  
   "optional": {
+    /**
+     *Enable remote cache for the application. When enabled,
+     * it reduces requests like Select Component options queries by caching data in the browser
+     */
     "remoteCache": true,
+    /**
+        * This is a new feature of the yao v0.10.4
+        * layout:
+        * 	  1-column: one column for menu and sub-menu
+        * 	  2-columns: menu and sub-menu in two column
+        *
+        * hide: hide the menu and sub-menu
+        * showName: show the name of the menu
+        */
+    "menu": {
+          "layout": "2-columns",
+          "showName": true
+        },
     /**
      * 管理后台使用:
      * - PATH:        {"api":"/neo"}
@@ -28,5 +82,12 @@
     "neo": {
       "api": "/neo"
     }
+  },
+  "moapi": {
+    "channel": "global",
+    "secret": "$ENV.MOAPI_SECRET", // SUPPORT ENVIRONMENT VARIABLE
+    "mirrors": [
+      "api.openai.com"
+    ]
   }
 }

@@ -1,4 +1,4 @@
-import {WebSocket} from '@yao/yao'
+import {WebSocket} from '@yao/runtime'
 /**
  * yao js web socket client
  * 发送通知

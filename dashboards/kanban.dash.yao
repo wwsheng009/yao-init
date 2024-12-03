@@ -78,7 +78,10 @@
       "宠物列表": {
         "view": {
           "type": "base/Table",
-          "props": { "model": "demo.pet", "onChangeEvent": false }
+          "props": {
+            "model": "tests.pet",
+            "onChangeEvent": false
+          }
         }
       }
     }

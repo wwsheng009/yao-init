@@ -7,7 +7,7 @@
     "target": "ESNext",
     "paths": {
       "@yao/*": [
-        "./scripts/__types/*"
+        "./.vscode/types/*"
       ],
       "@lib/*": [
         "./scripts/lib/*"

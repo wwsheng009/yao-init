@@ -14,13 +14,13 @@
         "icon": "icon-settings",
         "id": 999999,
         "name": "设置",
-        "path": "/x/Form/demo.pet/1/edit",
+        "path": "/x/Form/tests.pet/1/edit",
         "dot": true,
         "children": [
           {
             "name": "设置项演示",
             "badge": 24,
-            "path": "/x/Form/demo.pet/1/edit"
+            "path": "/x/Form/tests.pet/1/edit"
           },
           {
             "name": "系统设置",
@@ -55,23 +55,23 @@
           {
             "blocks": 0,
             "name": "表格",
-            "path": "/x/Table/demo.pet",
+            "path": "/x/Table/tests.pet",
             "visible_menu": 1
           },
           {
             "blocks": 0,
             "name": "表单(编辑)",
-            "path": "/x/Form/demo.pet/1/edit",
+            "path": "/x/Form/tests.pet/1/edit",
             "visible_menu": 1
           },
           {
             "name": "表单(查看)",
-            "path": "/x/Form/demo.pet/1/view",
+            "path": "/x/Form/tests.pet/1/view",
             "visible_menu": 1
           },
           {
             "name": "自定义页面",
-            "path": "/iframe?src=/demo/pet.html",
+            "path": "/iframe?src=/index",
             "visible_menu": 1
           }
         ]

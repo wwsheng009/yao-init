@@ -83,7 +83,6 @@ _注意，只有执行目录下没有.env 文件并且数据库为空时才会�
 | YAO_LOG_MODE      | 日志文件格式 `TEXT` 或 `JSON`                                    | `JSON`                   |
 | YAO_SESSION_STORE | 会话存储方式 `file`或 `redis`                                    | `file`                   |
 | YAO_SESSION_FILE  | 会话文件地址 `file`或 `redis`                                    | `db/.session`            |
-| YAO_STUDIO_PORT   | Studio API 服务端口默认为 `5077`                                 | `5077`                   |
 | OPENAI_KEY        | OPENAI API KEY, 可在连接器中更换变量名。 启用 Neo 或 AIGC 必须。 | `sk-xxx`                 |
 | YAO_APP_PROXY_ENDPOINT        | 调试项目时需要配置yao服务地址。 | `http://localhost:5099/api/proxy/call`                 |
 | YAO_API_ACCESS_KEY        | 调试项目时需要配置的API key。 | `123456`                 |

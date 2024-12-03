@@ -1,9 +1,5 @@
-logs
 .trash
-*.db
 *.session
-.env
-app.yao
 node_modules
 *.so
 *.dll
@@ -11,3 +7,11 @@ pnpm-lock.yaml
 dist
 package-lock.json
 yarn.lock
+db/*
+!db/README.md
+data/*
+!data/README.md
+!data/templates
+logs/*
+!logs/README.md
+moapi.env.sh
