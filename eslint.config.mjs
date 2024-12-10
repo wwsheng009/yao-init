@@ -6,7 +6,17 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
 export default [
   {
-    ignores: ['node_modules', 'dist', 'public'],
+    ignores: [
+      'dist/',
+      'node_modules/',
+      'public/',
+      'types/',
+      'cache/',
+      '!docs/.vitepress',
+      '!/.eslintrc.js',
+      '!.test',
+      '.temp/'
+    ]
   },
   /** js推荐配置 */
   pluginJs.configs.recommended,
@@ -22,8 +32,8 @@ export default [
   // }),
   {
     plugins: {
-      '@stylistic': stylistic,
-    },
+      '@stylistic': stylistic
+    }
   },
 
   /**
@@ -32,8 +42,8 @@ export default [
   {
     files: ['**/*.{js,mjs,cjs}'],
     rules: {
-      'no-console': 'error',
-    },
+      'no-console': 'error'
+    }
   },
   { languageOptions: { globals: globals.browser } },
   /**
@@ -41,12 +51,12 @@ export default [
    */
   {
     files: ['**/*.{ts}'],
-    rules: {},
+    rules: {}
   },
   /**
    * prettier 配置
    * 会合并根目录下的prettier.config.js 文件
    * @see https://prettier.io/docs/en/options
    */
-  eslintPluginPrettierRecommended,
+  eslintPluginPrettierRecommended
 ];

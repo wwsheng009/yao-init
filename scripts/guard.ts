@@ -1,15 +1,15 @@
-import {Process,Exception} from '@yao/runtime'
+import { Process, Exception } from '@yaoapps/client';
 
-
-function Chat(path, params, query, payload, headers) {
+export function Chat(path, params, query, payload, headers) {
+  console.log('Chat', path, params, query, payload, headers);
   query = query || {};
-  let token = query.token || "";
-  token = token[0] || "";
-  token = token.replace("Bearer ", "");
-  if (token == "" || token.length == 0) {
-    throw new Exception("No token provided", 403);
+  let token = query.token || '';
+  token = token[0] || '';
+  token = token.replace('Bearer ', '');
+  if (token == '' || token.length == 0) {
+    throw new Exception('No token provided', 403);
   }
 
-  let data = Process("utils.jwt.Verify", token);
+  const data = Process('utils.jwt.Verify', token);
   return { __sid: data.sid, __global: data.data };
 }

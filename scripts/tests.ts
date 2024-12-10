@@ -1,5 +1,5 @@
-import { LoadOption, MigrateOption, Process } from "@yao/runtime";
-import { Now, ResetAdmins, ResetDemoData, ResetPets } from "@scripts/utils"; // Import Now function from scripts/utils.ts.
+import { LoadOption, MigrateOption } from '@yao/lib';
+import { Now, ResetAdmins, ResetDemoData, ResetPets } from '@scripts/utils'; // Import Now function from scripts/utils.ts.
 
 /**
  * Custom process demo
@@ -7,7 +7,7 @@ import { Now, ResetAdmins, ResetDemoData, ResetPets } from "@scripts/utils"; // 
  * @param input string the input string
  * @returns string
  */
-function Hello(input: string): string {
+export function Hello(input: string): string {
   console.log(`Hello process is executed with input: ${input}, now: ${Now()}`);
   return input;
 }
@@ -16,7 +16,7 @@ function Hello(input: string): string {
  * Executed after the application setup ( Setup Wizard )
  * yao run scripts.tests.AppSetup
  */
-function AppSetup() {
+export function AppSetup() {
   Reset();
 }
 
@@ -24,13 +24,17 @@ function AppSetup() {
  * Executed after the application load ( yao start or yao run )
  * @param option LoadOption
  */
-function AppAfterLoad(option: LoadOption) {}
+export function AppAfterLoad(option: LoadOption) {
+  console.log(option);
+}
 
 /**
  * Executed after the application migrate ( yao migrate )
  * @param option MigrateOption
  */
-function AppAfterMigrate(option: MigrateOption) {}
+export function AppAfterMigrate(option: MigrateOption) {
+  console.log(option);
+}
 
 /**
  * Reset the demo data
@@ -39,4 +43,5 @@ function AppAfterMigrate(option: MigrateOption) {}
 function Reset() {
   ResetDemoData(); // Reset the demo data
   ResetAdmins(); // Reset the admins data
+  ResetPets(); // Reset the pets data
 }

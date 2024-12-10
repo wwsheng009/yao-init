@@ -1,9 +1,9 @@
-import {Process} from '@yao/runtime'
+import { Process } from '@yaoapps/client';
 /**
  * 看板数据
  * @cmd yao run scripts.dash.Data
  * @returns
  */
-function Data() {
-  return Process("flows.stat.data");
+export function Data() {
+  return Process('flows.stat.data');
 }

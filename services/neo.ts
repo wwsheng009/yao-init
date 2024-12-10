@@ -1,11 +1,9 @@
+import { Process } from '@yaoapps/client';
+
 /**
  * Execute a process
- * @param {*} id
- * @param {*} process
- * @param {*} payload
- * @returns
  */
-function Exec(id, process, args) {
+export function Exec(id: number, process: string, args: any) {
   const res = Process(process, ...args);
   return { id: id, result: res };
 }

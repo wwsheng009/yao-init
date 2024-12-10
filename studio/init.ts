@@ -1,53 +1,56 @@
 //在form与table配置中，yao可以只配置简单的与模型的绑定关系就能带出所有的配置，
+
+import { Exception, FS, Process } from '@yaoapps/client';
+
 //但是这些配置都是默认项，一般情况是够用了，如果需要更多的配置，就需要手动修改配置文件。
-function MakeDefaultTable(modelId) {
-  let filename = `tables/${modelId.split(".").join("/")}.tab.yao`;
-  let fs = new FS("dsl");
-  let default1 = {
-    name: "::" + modelId,
+export function MakeDefaultTable(modelId) {
+  const filename = `tables/${modelId.split('.').join('/')}.tab.yao`;
+  const fs = new FS('dsl');
+  const default1 = {
+    name: '::' + modelId,
     action: {
       bind: {
         model: modelId,
         option: {
           withs: {},
-          form: modelId, //有form才会生成创建按钮
-        },
-      },
-    },
+          form: modelId //有form才会生成创建按钮
+        }
+      }
+    }
   };
   if (!fs.Exists(filename)) {
-    let paths = `tables/${modelId.split(".").join("/")}`.split("/");
+    const paths = `tables/${modelId.split('.').join('/')}`.split('/');
     paths.pop();
-    let folder = paths.join("/");
+    const folder = paths.join('/');
     fs.MkdirAll(folder);
     fs.WriteFile(filename, JSON.stringify(default1));
-    console.log("已生成最小化配置Table:", filename);
+    console.log('已生成最小化配置Table:', filename);
     return false;
   } else {
     return true;
   }
 }
-function MakeDefaultForm(modelId) {
-  let filename = `forms/${modelId.split(".").join("/")}.form.yao`;
-  let fs = new FS("dsl");
-  let default1 = {
-    name: "::" + modelId,
+export function MakeDefaultForm(modelId) {
+  const filename = `forms/${modelId.split('.').join('/')}.form.yao`;
+  const fs = new FS('dsl');
+  const default1 = {
+    name: '::' + modelId,
     action: {
       bind: {
         model: modelId,
         option: {
-          withs: {},
-        },
-      },
-    },
+          withs: {}
+        }
+      }
+    }
   };
   if (!fs.Exists(filename)) {
-    let paths = `tables/${modelId.split(".").join("/")}`.split("/");
+    const paths = `tables/${modelId.split('.').join('/')}`.split('/');
     paths.pop();
-    let folder = paths.join("/");
+    const folder = paths.join('/');
     fs.MkdirAll(folder);
     fs.WriteFile(filename, JSON.stringify(default1));
-    console.log("已生成最小化配置Form:", filename);
+    console.log('已生成最小化配置Form:', filename);
     return false;
   } else {
     return true;
@@ -60,33 +63,33 @@ function MakeDefaultForm(modelId) {
 function CreateTable(modelId) {
   const exist = MakeDefaultTable(modelId);
   if (exist == false) {
-    console.log("需要生成全配置Table,请再执行一次命令");
+    console.log('需要生成全配置Table,请再执行一次命令');
     return;
   }
   //如果不存在，需要执行两次，要不然yao.table.Setting无法加载文件
-  let filename = `tables/${modelId.split(".").join("/")}.tab.yao`;
+  const filename = `tables/${modelId.split('.').join('/')}.tab.yao`;
   // let table_file = `tables/${table.split(".").join("/")}.tab.yao`;
-  let setting = Process("yao.table.Setting", modelId);
+  const setting = Process('yao.table.Setting', modelId);
   if (setting.code && setting.message) {
     throw new Exception(setting.message, setting.code);
   }
-  delete setting["hooks"];
+  delete setting['hooks'];
   //重新近排布局
-  let newTable = {
-    name: "::" + modelId,
+  const newTable = {
+    name: '::' + modelId,
     action: {
       bind: {
         model: modelId,
         option: {
           form: modelId,
-          withs: {},
-        },
-      },
+          withs: {}
+        }
+      }
     },
     layout: {},
-    fields: {},
+    fields: {}
   };
-  let fields = setting.fields;
+  const fields = setting.fields;
   delete setting.fields;
   newTable.layout = setting;
   newTable.fields = fields;
@@ -95,19 +98,19 @@ function CreateTable(modelId) {
     delete newTable.layout.config;
     delete newTable.layout.name;
   }
-  let createAction = {
+  const createAction = {
     action: [
       {
-        type: "Common.historyPush",
+        type: 'Common.historyPush',
         payload: {
-          pathname: `/x/Form/${modelId}/0/edit`,
+          pathname: `/x/Form/${modelId}/0/edit`
         },
-        name: "HistoryPush",
-      },
+        name: 'HistoryPush'
+      }
     ],
-    title: "创建",
+    title: '创建',
     width: 3,
-    icon: "icon-plus",
+    icon: 'icon-plus'
   };
   if (!newTable?.layout) {
     newTable.layout = {};
@@ -121,10 +124,10 @@ function CreateTable(modelId) {
   if (newTable.layout.filter.actions.length == 0) {
     newTable.layout.filter.actions.push(createAction);
   }
-  deleteObjectKey(newTable, "id");
-  let fs = new FS("dsl");
+  deleteObjectKey(newTable, 'id');
+  const fs = new FS('dsl');
   if (fs.Exists(filename)) {
-    let template = JSON.parse(fs.ReadFile(filename));
+    const template = JSON.parse(fs.ReadFile(filename));
     //如果不存在配置，增加，不要直接替换
     newTable.action = template.action;
     newTable.name = template.name;
@@ -135,12 +138,12 @@ function CreateTable(modelId) {
     // }
   }
   //make sure the folder exist
-  let folder = filename.split("/").slice(0, -1);
-  if (!fs.Exists(folder.join("/"))) {
-    fs.MkdirAll(folder.join("/"));
+  const folder = filename.split('/').slice(0, -1);
+  if (!fs.Exists(folder.join('/'))) {
+    fs.MkdirAll(folder.join('/'));
   }
-  let rc = fs.WriteFile(
-    filename.slice(0, -3) + "default.yao",
+  const rc = fs.WriteFile(
+    filename.slice(0, -3) + 'default.yao',
     JSON.stringify(newTable)
   );
   console.log(rc);
@@ -152,30 +155,30 @@ function CreateTable(modelId) {
 function CreateForm(modelId) {
   const exist = MakeDefaultForm(modelId);
   if (exist == false) {
-    console.log("需要生成全配置Form,请再执行一次");
+    console.log('需要生成全配置Form,请再执行一次');
     return;
   }
   //如果不存在，需要执行两次，要不然yao.form.Setting无法加载文件
-  let filename = `forms/${modelId.split(".").join("/")}.form.yao`;
-  let setting = Process("yao.form.Setting", modelId);
+  const filename = `forms/${modelId.split('.').join('/')}.form.yao`;
+  const setting = Process('yao.form.Setting', modelId);
   // createSetting(setting, filename);
   if (setting.code && setting.message) {
     throw new Exception(setting.message, setting.code);
   }
-  delete setting["hooks"];
-  let newForm = {
+  delete setting['hooks'];
+  const newForm = {
     //{ [key: string]: any } = {
-    name:  "::" + modelId,
+    name: '::' + modelId,
     action: {
       bind: {
         model: modelId,
-        option: {},
-      },
+        option: {}
+      }
     },
     layout: {},
-    fields: {},
+    fields: {}
   };
-  let fields = setting.fields;
+  const fields = setting.fields;
   delete setting.fields;
   newForm.layout = setting;
   newForm.fields = fields;
@@ -184,11 +187,11 @@ function CreateForm(modelId) {
     delete newForm.layout.config;
     delete newForm.layout.name;
   }
-  deleteObjectKey(newForm, "id");
+  deleteObjectKey(newForm, 'id');
   // 合并原来的配置
-  let fs = new FS("dsl");
+  const fs = new FS('dsl');
   if (fs.Exists(filename)) {
-    let template = JSON.parse(fs.ReadFile(filename));
+    const template = JSON.parse(fs.ReadFile(filename));
     newForm.action = template.action;
     newForm.name = template.name;
     // for (const key in template) {
@@ -197,74 +200,74 @@ function CreateForm(modelId) {
     //   }
     // }
   }
-  let actions = [
+  const actions = [
     {
-      title: "返回",
-      icon: "icon-arrow-left",
+      title: '返回',
+      icon: 'icon-arrow-left',
       showWhenAdd: true,
       showWhenView: true,
       action: [
         {
-          name: "CloseModal",
-          type: "Common.closeModal",
-          payload: {},
-        },
-      ],
+          name: 'CloseModal',
+          type: 'Common.closeModal',
+          payload: {}
+        }
+      ]
     },
     {
-      title: "保存",
-      icon: "icon-check",
-      style: "primary",
+      title: '保存',
+      icon: 'icon-check',
+      style: 'primary',
       showWhenAdd: true,
       action: [
         {
-          name: "Submit",
-          type: "Form.submit",
-          payload: {},
+          name: 'Submit',
+          type: 'Form.submit',
+          payload: {}
         },
         {
-          name: "Back",
-          type: "Common.closeModal",
-          payload: {},
-        },
-      ],
+          name: 'Back',
+          type: 'Common.closeModal',
+          payload: {}
+        }
+      ]
     },
     {
-      icon: "icon-trash-2",
-      style: "danger",
-      title: "Delete",
+      icon: 'icon-trash-2',
+      style: 'danger',
+      title: 'Delete',
       action: [
         {
-          name: "Confirm",
-          type: "Common.confirm",
+          name: 'Confirm',
+          type: 'Common.confirm',
           payload: {
-            title: "确认删除",
-            content: "删除后不可撤销！",
-          },
+            title: '确认删除',
+            content: '删除后不可撤销！'
+          }
         },
         {
-          name: "Delete",
+          name: 'Delete',
           payload: {
-            model: modelId,
+            model: modelId
           },
-          type: "Form.delete",
+          type: 'Form.delete'
         },
         {
-          name: "Back",
-          type: "Common.closeModal",
-          payload: {},
-        },
-      ],
-    },
+          name: 'Back',
+          type: 'Common.closeModal',
+          payload: {}
+        }
+      ]
+    }
   ];
   newForm.layout.actions = actions;
   //make sure the folder exist
-  let folder = filename.split("/").slice(0, -1);
-  if (!fs.Exists(folder.join("/"))) {
-    fs.MkdirAll(folder.join("/"));
+  const folder = filename.split('/').slice(0, -1);
+  if (!fs.Exists(folder.join('/'))) {
+    fs.MkdirAll(folder.join('/'));
   }
-  let rc = fs.WriteFile(
-    filename.slice(0, -3) + "default.yao",
+  const rc = fs.WriteFile(
+    filename.slice(0, -3) + 'default.yao',
     JSON.stringify(newForm)
   );
   console.log(rc);
@@ -296,18 +299,18 @@ function deleteObjectKey(obj, delete_id) {
     }
   }
 }
-function test_delete_object_key() {
-  let obj = {
+export function test_delete_object_key() {
+  const obj = {
     test: {
-      id: "test",
+      id: 'test'
     },
     fields: [
       {
-        id: "test2",
-      },
-    ],
+        id: 'test2'
+      }
+    ]
   };
-  deleteObjectKey(obj, "id");
+  deleteObjectKey(obj, 'id');
   console.log(obj);
 }
 /**
@@ -329,7 +332,7 @@ function FlatModelList(models, attr) {
   const list = [];
 
   const getProperty = (object, path) => {
-    const properties = path.split(".");
+    const properties = path.split('.');
     let currentObject = object;
 
     for (let i = 0; i < properties.length; i++) {
@@ -339,7 +342,7 @@ function FlatModelList(models, attr) {
   };
 
   const setProperty = (object, path, value) => {
-    const properties = path.split(".");
+    const properties = path.split('.');
     let currentObject = object;
 
     for (let i = 0; i < properties.length - 1; i++) {
@@ -349,7 +352,7 @@ function FlatModelList(models, attr) {
         );
       }
       //   注意，不支持生成数组
-      if (!currentObject.hasOwnProperty(properties[i])) {
+      if (!Object.prototype.hasOwnProperty.call(currentObject, properties[i])) {
         currentObject[properties[i]] = {};
       }
       currentObject = currentObject[properties[i]];
@@ -358,9 +361,9 @@ function FlatModelList(models, attr) {
     currentObject[properties[properties.length - 1]] = value;
   };
   let attr2 = [];
-  if (typeof attr === "string") {
+  if (typeof attr === 'string') {
     // 单个属性
-    attr2 = attr.split(",");
+    attr2 = attr.split(',');
   } else if (Array.isArray(attr)) {
     attr2 = attr;
   }
@@ -397,8 +400,8 @@ function FlatModelList(models, attr) {
  * @param {number/string} id 模型标识
  * @returns object | null
  */
-function FindCachedModelById(modelId) {
-  const models = Process("widget.models");
+export function FindCachedModelById(modelId) {
+  const models = Process('widget.models');
 
   const traverse = (node, id) => {
     if (node.children) {
@@ -409,7 +412,7 @@ function FindCachedModelById(modelId) {
       }
     } else if (Array.isArray(node)) {
       for (const item of node) {
-        var obj = traverse(item, id);
+        const obj = traverse(item, id);
         if (obj) {
           return obj;
         }
@@ -422,14 +425,14 @@ function FindCachedModelById(modelId) {
 /**
  * yao studio run init.CreateTableAndFormForAll
  */
-function CreateTableAndFormForAll(){
-  const models = Process("widget.models");
+export function CreateTableAndFormForAll() {
+  const models = Process('widget.models');
 
-  const modelIdlist = FlatModelList(models,"ID").map((item) => item.ID)
+  const modelIdlist = FlatModelList(models, 'ID').map((item) => item.ID);
 
-  modelIdlist.forEach(m=>{
-    CreateTableAndForm(m)
-  })
+  modelIdlist.forEach((m) => {
+    CreateTableAndForm(m);
+  });
 }
 //如果不存在，需要执行两次，要不然yao无法加载文件
 //直接ts执行

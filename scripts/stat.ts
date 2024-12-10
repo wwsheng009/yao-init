@@ -1,13 +1,13 @@
-import {Process,log,Exception} from '@yao/runtime'
+import { Process, log, Exception } from '@yaoapps/client';
 /**
  * before:data hook
  * @cmd  yao run scripts.stat.BeforeData '::{}'
  * @param {*} params
  * @returns
  */
-function BeforeData(params) {
-  log.Info("[chart] before data hook: %s", JSON.stringify(params));
-  console.log("[chart] before data hook: %s", params);
+export function BeforeData(params) {
+  log.Info('[chart] before data hook: %s', JSON.stringify(params));
+  console.log('[chart] before data hook: %s', params);
   return [params];
 }
 
@@ -17,9 +17,9 @@ function BeforeData(params) {
  * @param {*} data
  * @returns
  */
-function AfterData(data) {
-  log.Info("[chart] after data hook: %s", JSON.stringify(data));
-  console.log("[chart] after data hook: %s", data);
+export function AfterData(data) {
+  log.Info('[chart] after data hook: %s', JSON.stringify(data));
+  console.log('[chart] after data hook: %s', data);
   return data;
 }
 
@@ -30,27 +30,27 @@ function AfterData(data) {
  * @param {*} data
  * @returns
  */
-function Income(field, value, data) {
+export function Income(field, value, data) {
   log.Info(
-    "[chart] Income Compute: %s",
+    '[chart] Income Compute: %s',
     JSON.stringify({ field: field, value: value, data: data })
   );
   return value;
 }
 
-function OnChange(query) {
+export function OnChange(query) {
   // 进入onchange事件
   query = query || {};
-  let field = query.key;
-  let newVal = query.value;
-  let oldVal = query.old;
+  // const field = query.key;
+  const newVal = query.value;
+  // const oldVal = query.old;
 
-  let data = { query: query,cost:2000 };
-  if (newVal == "cat") {
+  const data = { query: query, cost: 2000 };
+  if (newVal == 'cat') {
     data.cost = 1000;
   }
 
-  let setting = Process("yao.form.Setting", "tests.pet");
+  const setting = Process('yao.form.Setting', 'tests.pet');
 
   if (setting && setting.code && setting.message) {
     throw new Exception(setting.message, 500);
@@ -58,6 +58,6 @@ function OnChange(query) {
 
   return {
     data: data,
-    setting: setting,
+    setting: setting
   };
 }
