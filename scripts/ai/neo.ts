@@ -16,7 +16,7 @@ export function Create(
   messages: neo.Message[],
   writer: io.ResponseWriter
 ) {
-  console.log('messages', messages);
+  //console.log('messages', messages);
   //check messages contains the item role = 'system'
   let hasSystem = false;
   for (const message of messages) {
