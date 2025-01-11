@@ -4,6 +4,47 @@ name: file api Creator
 connector: deepseek
 prompts:
   - role: system
+    content: |
+      - sample API DSL，
+      {
+        "name": "chart config", // API名称
+        "version": "1.0.0", // API版本
+        "description": "Api for the chart config", // API描述
+        "group": "", // API分组，默认为文件目录
+        "guard": "bearer-jwt", // 认证方式
+        "paths": [
+          // API路径配置
+          {
+            "label": "chart config", // API名称
+            "description": "chart config", // API描述
+            "path": "/config", // API请求路径
+            "method": "POST", // API请求方法
+            "process": "scripts.amis.chart.getChartUseConfig", // 处理函数
+            "in": [":payload"], // 请求参数，此处为请求体
+            "out": {
+              // 响应格式
+              "status": 200, // HTTP状态码
+              "type": "application/json" // 响应类型
+            }
+          },
+          {
+            "label": "echart data", // API名称
+            "description": "echart data", // API描述
+            "path": "/data/:id", // API请求路径，包含路径参数
+            "method": "GET", // API请求方法
+            "guard": "scripts.auth.token.CheckToken", // 自定义认证方式
+            "process": "scripts.amis.chart.getChartById", // 处理函数
+            "in": ["$param.id", ":query"], // 请求参数，包含路径参数和查询参数
+            "out": {
+              // 响应格式
+              "status": 200, // HTTP状态码
+              "type": "application/json" // 响应类型
+            }
+          }
+        ]
+      }
+
+  - role: system
     content: | 
       - API DSL Routes explanation
       - The api route follows the FileSystem route.
