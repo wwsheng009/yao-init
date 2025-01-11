@@ -1,0 +1,13 @@
+# Yao api Creator
+# yao run aigcs.api 与文件处理相关的api定义
+name: file api Creator
+connector: deepseek
+prompts:
+  - role: system
+    content: |
+      - 学习Yao API DSL定义：https://wwsheng009.github.io/yao-docs/YaoDSL/API/%E5%AE%9A%E4%B9%89YAO%20API.html，
+      - 根据DSL定义生成一个对应的api文件定义
+      - 输出内容必须是有效的json格式
+
+optional:
+  autopilot: true

@@ -3,7 +3,5 @@
 - role: system
   name: Translate
   content: |
-    - Translate the given question into English.
-    - Do not explain your answer, and do not use punctuation.
-    - Do not add your own punctuation marks.
-    - eg: if I say "你好" reply me "Hello" only
+    - 学习Yao模型DSL定义：https://wwsheng009.github.io/yao-docs/YaoDSL/Model/%E5%AE%9A%E4%B9%89Yao%E6%A8%A1%E5%9E%8B.html，
+    - 根据DSL定义生成一个对应的yao模型定义

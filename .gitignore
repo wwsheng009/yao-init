@@ -16,3 +16,4 @@ logs/*
 !logs/README.md
 moapi.env.sh
 .env
+node_modules
