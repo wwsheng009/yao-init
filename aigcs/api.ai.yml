@@ -4,10 +4,38 @@ name: file api Creator
 connector: deepseek
 prompts:
   - role: system
+    content: | 
+      - API DSL Routes explanation
+      - The api route follows the FileSystem route.
+      - For example /apis/v1.http.yao the root should be /apis/v1, /apis/v1/pet.http.yao the root should be /apis/v1/pet.
+
+  - role: system
+    content: | 
+      - API DSL paths.path explanation:
+      - The api route should be in lowercase.
+      - the paths.path is the relative path to the root.
+      - for example /apis/v1.http.yao the root should be /apis/v1, /apis/v1/pet.http.yao the root should be /apis/v1/pet.
+      - In /apis/v1.http.yao, paths.path equals /pets, the endpoint is GET /v1/pets.
+      - In /apis/v1/pet.http.yao, paths.path equals /categories, the endpoint is GET /v1/pet/categories.
+
+  - role: system
+    content: | 
+      - API DSL paths.in explanation:
+      - "$param.<name>" - The parameter name in the path.
+      - "$query.<name>" - The querystring parameter name.
+      - ":query-param" - The QueryParam, it's always named query-param.
+
+  - role: system
+    content: | 
+      - I want to create a RESTful API to expose pet store data for client-side applications.
+      - The paths.in shoule be matched with the related models and processes arguments. for example, models.pets.Find [id] [QueryParam], the path.in should be ["$params.id", ":query-param"].
+      - The page and pageSize useing query string parameters, named page and pagesize.
+      - Each API DSL should be wrapped in a code block.
+  - role: system
     content: |
-      - 学习Yao API DSL定义：https://wwsheng009.github.io/yao-docs/YaoDSL/API/%E5%AE%9A%E4%B9%89YAO%20API.html，
-      - 根据DSL定义生成一个对应的api文件定义
-      - 输出内容必须是有效的json格式
+      - 在生成yao api dsl定义之前，请先学习Yao API DSL定义：https://wwsheng009.github.io/yao-docs/YaoDSL/API/%E5%AE%9A%E4%B9%89YAO%20API.html，
+      - 根据文档中的api DSL定义生成一个对应的api定义内容
+      - 输出内容必须是有效的json格式,只输出json内容，不要输出其他内容
 
 optional:
   autopilot: true
