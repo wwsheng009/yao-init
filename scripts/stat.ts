@@ -6,8 +6,8 @@ import { Process, log, Exception } from '@yaoapps/client';
  * @returns
  */
 export function BeforeData(params) {
-  log.Info('[chart] before data hook: %s', JSON.stringify(params));
-  console.log('[chart] before data hook: %s', params);
+  //log.Info('[chart] before data hook: %s', JSON.stringify(params));
+  //console.log('[chart] before data hook: %s', params);
   return [params];
 }
 
@@ -18,8 +18,8 @@ export function BeforeData(params) {
  * @returns
  */
 export function AfterData(data) {
-  log.Info('[chart] after data hook: %s', JSON.stringify(data));
-  console.log('[chart] after data hook: %s', data);
+  //log.Info('[chart] after data hook: %s', JSON.stringify(data));
+  //console.log('[chart] after data hook: %s', data);
   return data;
 }
 

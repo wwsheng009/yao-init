@@ -23,6 +23,19 @@ export declare namespace neo {
     field: Field;
     /** Signal data for triggering or handling events. */
     signal: any;
+    /**
+     * update data
+     */
+    upload?: {
+      name?: string;
+      bytes?: number;
+      content_type?: string;
+      mimetype?: string;
+      option?: Record<string, any>;
+    };
+
+    chat_id?: string;
+    assistant_id?: string;
   }
 
   /**

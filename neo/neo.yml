@@ -69,6 +69,13 @@ prompts:
 option: #options for chatting with the assistant
   temperature: 0.8
 
+
+create: "scripts.ai.neo.Create" #create function for the assistant 选择assistant
+
+prepare: "scripts.ai.neo.prepare" #prepare function for the assistant不再使用，使用assistant代替
+write: "scripts.ai.neo.write"  #write function for the assistant 不再使用，使用assistant代替
+
+
 allows:
   - "http://127.0.0.1:8000"
   - "http://127.0.0.1:5099"
