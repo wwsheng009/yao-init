@@ -33,7 +33,7 @@ export function CheckAccessKey(
   }
   // 如果需要测试会话信息，把YAO_API_ACCESS_KEY设置成用户的token,再反注释以下两行。
   // let data = Process('utils.jwt.Verify', token)
-  // return { __sid: data.sid, __global: data.data }
+  // return { sid: data.sid, __global: data.data }
 }
 
 function error() {

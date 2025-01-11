@@ -1,7 +1,7 @@
 import { Process, Exception } from '@yaoapps/client';
 
 export function Chat(path, params, query, payload, headers) {
-  console.log('Chat', path, params, query, payload, headers);
+  //console.log('Chat', path, params, query, payload, headers);
   query = query || {};
   let token = query.token || '';
   token = token[0] || '';
@@ -11,5 +11,5 @@ export function Chat(path, params, query, payload, headers) {
   }
 
   const data = Process('utils.jwt.Verify', token);
-  return { __sid: data.sid, __global: data.data };
+  return { sid: data.sid, __global: data.data };
 }
