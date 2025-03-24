@@ -5,7 +5,7 @@ import { Exception, FS, Process } from '@yaoapps/client';
 //但是这些配置都是默认项，一般情况是够用了，如果需要更多的配置，就需要手动修改配置文件。
 export function MakeDefaultTable(modelId) {
   const filename = `tables/${modelId.split('.').join('/')}.tab.yao`;
-  const fs = new FS('dsl');
+  const fs = new FS('app');
   const default1 = {
     name: '::' + modelId,
     action: {
@@ -32,7 +32,7 @@ export function MakeDefaultTable(modelId) {
 }
 export function MakeDefaultForm(modelId) {
   const filename = `forms/${modelId.split('.').join('/')}.form.yao`;
-  const fs = new FS('dsl');
+  const fs = new FS('app');
   const default1 = {
     name: '::' + modelId,
     action: {
@@ -125,7 +125,7 @@ function CreateTable(modelId) {
     newTable.layout.filter.actions.push(createAction);
   }
   deleteObjectKey(newTable, 'id');
-  const fs = new FS('dsl');
+  const fs = new FS('app');
   if (fs.Exists(filename)) {
     const template = JSON.parse(fs.ReadFile(filename));
     //如果不存在配置，增加，不要直接替换
@@ -189,7 +189,7 @@ function CreateForm(modelId) {
   }
   deleteObjectKey(newForm, 'id');
   // 合并原来的配置
-  const fs = new FS('dsl');
+  const fs = new FS('app');
   if (fs.Exists(filename)) {
     const template = JSON.parse(fs.ReadFile(filename));
     newForm.action = template.action;
@@ -299,20 +299,6 @@ function deleteObjectKey(obj, delete_id) {
     }
   }
 }
-export function test_delete_object_key() {
-  const obj = {
-    test: {
-      id: 'test'
-    },
-    fields: [
-      {
-        id: 'test2'
-      }
-    ]
-  };
-  deleteObjectKey(obj, 'id');
-  console.log(obj);
-}
 /**
  * create default table and table config json file
  * @param model yao model name
@@ -322,126 +308,31 @@ function CreateTableAndForm(model) {
   CreateForm(model);
 }
 
+
 /**
- * 扁平化模型列表
- * @param {object} models yao 模型 嵌套的数据结构
- * @param {string} attr,使用路径表达式抽取子对象
- * @returns
+ * get the id list of the cached models 读取所有的模型id的列表
+ *
+ * yao run scripts.studio.init.getCachedModelIDList
+ * @returns list of the cached model ids
  */
-function FlatModelList(models, attr) {
-  const list = [];
-
-  const getProperty = (object, path) => {
-    const properties = path.split('.');
-    let currentObject = object;
-
-    for (let i = 0; i < properties.length; i++) {
-      currentObject = currentObject[properties[i]];
-    }
-    return currentObject;
-  };
-
-  const setProperty = (object, path, value) => {
-    const properties = path.split('.');
-    let currentObject = object;
-
-    for (let i = 0; i < properties.length - 1; i++) {
-      if (currentObject === undefined) {
-        throw new Error(
-          `Property '${properties[i]}' does not exist in path '${path}'`
-        );
-      }
-      //   注意，不支持生成数组
-      if (!Object.prototype.hasOwnProperty.call(currentObject, properties[i])) {
-        currentObject[properties[i]] = {};
-      }
-      currentObject = currentObject[properties[i]];
-    }
-
-    currentObject[properties[properties.length - 1]] = value;
-  };
-  let attr2 = [];
-  if (typeof attr === 'string') {
-    // 单个属性
-    attr2 = attr.split(',');
-  } else if (Array.isArray(attr)) {
-    attr2 = attr;
-  }
-  const traverse = (node) => {
-    if (node.children) {
-      traverse(node.children);
-    } else if (node.data) {
-      if (attr != null) {
-        const o = {};
-        attr2.forEach((a) => {
-          const p = getProperty(node.data, a);
-          if (p != null) {
-            // o[a] = p;
-            setProperty(o, a, p);
-          }
-        });
-        list.push(o);
-      } else {
-        list.push(node.data);
-      }
-    } else if (Array.isArray(node)) {
-      node.forEach((line) => {
-        traverse(line);
-      });
-    }
-  };
-  traverse(models);
-  return list;
-}
-/**
- * 根据模型ID在缓存中查找模型定义
- * yao studio run init.FindCachedModelById
- * @param {Array} models 模型缓存，保存了所有的模型定义
- * @param {number/string} id 模型标识
- * @returns object | null
- */
-export function FindCachedModelById(modelId) {
-  const models = Process('widget.models');
-
-  const traverse = (node, id) => {
-    if (node.children) {
-      return traverse(node.children, id);
-    } else if (node.data) {
-      if (node.data.ID == id) {
-        return node.data;
-      }
-    } else if (Array.isArray(node)) {
-      for (const item of node) {
-        const obj = traverse(item, id);
-        if (obj) {
-          return obj;
-        }
-      }
-    }
-  };
-
-  return traverse(models, modelId);
+export function getCachedModelIDList(): string[] {
+  return Process('model.list').map((m) => m.id);
 }
 /**
  * yao studio run init.CreateTableAndFormForAll
  */
 export function CreateTableAndFormForAll() {
-  const models = Process('widget.models');
-
-  const modelIdlist = FlatModelList(models, 'ID').map((item) => item.ID);
-
-  modelIdlist.forEach((m) => {
+ 
+  getCachedModelIDList().forEach((m) => {
     CreateTableAndForm(m);
   });
 }
 //如果不存在，需要执行两次，要不然yao无法加载文件
 //直接ts执行
-// CreateTable("chat.prompt_template1");
-// CreateForm("chat.prompt_template");
-// CreateTableAndForm("chat.prompt_template");
+
 // 使用命令行
-// yao studio run init.CreateTable supplier
-// yao studio run init.CreateForm supplier
-// yao studio run init.CreateTableAndForm supplier
+// yao run scripts.studio.init.CreateTable admin.user
+// yao run scripts.studio.init.CreateForm admin.user
+// yao run scripts.studio.init.CreateTableAndForm admin.user
 // 创建所有
-// yao studio run init.CreateTableAndFormForAll
+// yao run scripts.studio.init.CreateTableAndFormForAll

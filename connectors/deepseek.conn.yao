@@ -1,5 +1,5 @@
 {
-    "label": "Model v3",
+    "label": "deepseek ai model",
     "type": "openai",
     "options": {
         "model": "deepseek-chat",
