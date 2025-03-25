@@ -22,11 +22,19 @@ export function ModelSearch(
  */
 export function getCachedModelList(): CachedModel[] {
   const modelsList = Process('model.list', { metadata: true });
+
   return modelsList.map((m) => {
+    const meta = Process('scripts.studio.init.getModelMeta', m.id);
+    if (meta.table_exist) {
+      meta.table_url = `/admin/x/Table/${m.id}`;
+    }
+    if (meta.form_exist) {
+      meta.form_url = `/admin/x/Form/${m.id}`;
+    }
     return {
       id: m.id,
       name: m.metadata.name,
-      ...Process('scripts.studio.init.getModelMeta', m.id)
+      ...meta
     };
   });
 }

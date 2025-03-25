@@ -43,6 +43,14 @@
                 {
                     "name": "表单是否存在",
                     "width": 150,
+                },
+                {
+                    "name": "表格访问",
+                    "width": 150,
+                },
+                {
+                    "name": "表单访问",
+                    "width": 150,
                 }
             ],
             "operation": {
@@ -74,8 +82,6 @@
                             }
                         ],
                         "icon": "icon-plus",
-                        "showWhenAdd": false,
-                        "hideWhenEdit": true,
                         "showWhenView": true,
                         "title": "创建表格配置"
                     },
@@ -105,10 +111,26 @@
                             }
                         ],
                         "icon": "icon-file-plus",
-                        "showWhenAdd": false,
-                        "hideWhenEdit": true,
                         "showWhenView": true,
                         "title": "创建表单配置"
+                    },
+                    {
+                        "action": [
+                            {
+                                "name": "HistoryPush",
+                                "payload": {
+                                    "pathname": "/x/Table/{{id}}"
+                                },
+                                "type": "Common.historyPush" //类型为service，sys对应services/sys.js文件
+                            }
+                        ],
+                        "disabled": {
+                            "bind": "{{table_exist}}",
+                            "value": "false"
+                        },
+                        "icon": "icon-link",
+                        "showWhenView": true,
+                        "title": "查看表格"
                     }
                 ]
             }
@@ -169,6 +191,24 @@
                         "checkedValue": true,
                         "unCheckedValue": false,
                         "disabled": true
+                    }
+                }
+            },
+            "表格访问": {
+                "bind": "table_url",
+                "view": {
+                    "type": "Text",
+                    "props": {
+                        "href": "{{table_url}}"
+                    }
+                }
+            },
+            "表单访问": {
+                "bind": "form_url",
+                "view": {
+                    "type": "Text",
+                    "props": {
+                        "href": "{{form_url}}"
                     }
                 }
             }

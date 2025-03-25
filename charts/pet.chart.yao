@@ -1,11 +1,15 @@
 {
   "name": "数据图表",
-  "config": { "full": false },
+  "config": {
+    "full": false
+  },
   "action": {
     "before:data": "scripts.stat.BeforeData",
     "data": {
       "process": "flows.stat.Data",
-      "default": ["2022-09-20"]
+      "default": [
+        "2022-09-20"
+      ]
     },
     "after:data": "scripts.stat.AfterData"
   },
@@ -16,33 +20,91 @@
           "title": "官网文档",
           "icon": "icon-book",
           "action": {
-            "Common.historyPush": { "pathname": "https://yaoapps.com/doc" }
+            "Common.historyPush": {
+              "pathname": "https://yaoapps.com/doc"
+            }
           }
         }
       ]
     },
     "filter": {
-      "columns": [{ "name": "时间区间", "width": 6 }]
+      "columns": [
+        {
+          "name": "时间区间",
+          "width": 6
+        }
+      ]
     },
     "chart": {
       "columns": [
-        { "name": "宠物数量", "width": 6 },
-        { "name": "宠物类型", "width": 6 },
-        { "name": "当月收入", "width": 6 },
-        { "name": "医师数量", "width": 6 },
-        { "name": "宠物数量_上月", "width": 6 },
-        { "name": "宠物类型_上月", "width": 6 },
-        { "name": "当月收入_上月", "width": 6 },
-        { "name": "医师数量_上月", "width": 6 },
-        { "name": "收入", "width": 8 },
-        { "name": "支出", "width": 8 },
-        { "name": "综合评分", "width": 8 },
-        { "name": "收入_折线图", "width": 8 },
-        { "name": "支出_折线图", "width": 8 },
-        { "name": "综合评分_折线图", "width": 8 },
-        { "name": "类型排布", "width": 12 },
-        { "name": "状态分布", "width": 12 },
-        { "name": "综合消费", "width": 24 }
+        {
+          "name": "宠物数量",
+          "width": 6
+        },
+        {
+          "name": "宠物类型",
+          "width": 6
+        },
+        {
+          "name": "当月收入",
+          "width": 6
+        },
+        {
+          "name": "医师数量",
+          "width": 6
+        },
+        {
+          "name": "宠物数量_上月",
+          "width": 6
+        },
+        {
+          "name": "宠物类型_上月",
+          "width": 6
+        },
+        {
+          "name": "当月收入_上月",
+          "width": 6
+        },
+        {
+          "name": "医师数量_上月",
+          "width": 6
+        },
+        {
+          "name": "收入",
+          "width": 8
+        },
+        {
+          "name": "支出",
+          "width": 8
+        },
+        {
+          "name": "综合评分",
+          "width": 8
+        },
+        {
+          "name": "收入_折线图",
+          "width": 8
+        },
+        {
+          "name": "支出_折线图",
+          "width": 8
+        },
+        {
+          "name": "综合评分_折线图",
+          "width": 8
+        },
+        {
+          "name": "类型排布",
+          "width": 12
+        },
+        {
+          "name": "状态分布",
+          "width": 12
+        },
+        {
+          "name": "综合消费",
+          "width": 24
+        }
       ]
     }
   },
@@ -50,7 +112,10 @@
     "filter": {
       "时间区间": {
         "bind": "range",
-        "edit": { "type": "RangePicker", "props": {} }
+        "edit": {
+          "type": "RangePicker",
+          "props": {}
+        }
       }
     },
     "chart": {
@@ -102,7 +167,9 @@
         "view": {
           "type": "NumberChart",
           "props": {
-            "cardStyle": { "padding": 0 },
+            "cardStyle": {
+              "padding": 0
+            },
             "type": "line",
             "prefix": "¥",
             "decimals": 2,
@@ -117,7 +184,9 @@
         "view": {
           "type": "NumberChart",
           "props": {
-            "cardStyle": { "padding": 0 },
+            "cardStyle": {
+              "padding": 0
+            },
             "type": "line",
             "color": "red",
             "prefix": "¥",
@@ -133,7 +202,9 @@
         "view": {
           "type": "NumberChart",
           "props": {
-            "cardStyle": { "padding": 0 },
+            "cardStyle": {
+              "padding": 0
+            },
             "type": "line",
             "color": "orange",
             "unit": "分",
@@ -148,28 +219,36 @@
         "link": "/x/Table/tests.pet",
         "view": {
           "type": "Number",
-          "props": { "unit": "个" }
+          "props": {
+            "unit": "个"
+          }
         }
       },
       "宠物类型": {
         "bind": "pet_type",
         "view": {
           "type": "Number",
-          "props": { "unit": "种" }
+          "props": {
+            "unit": "种"
+          }
         }
       },
       "当月收入": {
         "bind": "income_monthly",
         "view": {
           "type": "Number",
-          "props": { "unit": "元" }
+          "props": {
+            "unit": "元"
+          }
         }
       },
       "医师数量": {
         "bind": "doctor_count",
         "view": {
           "type": "Number",
-          "props": { "unit": "个" }
+          "props": {
+            "unit": "个"
+          }
         }
       },
       "宠物数量_上月": {
@@ -178,7 +257,9 @@
         "view": {
           "type": "Number",
           "props": {
-            "cardStyle": { "padding": 0 },
+            "cardStyle": {
+              "padding": 0
+            },
             "unit": "个",
             "prev_title": "上月数据"
           }
@@ -190,7 +271,9 @@
         "view": {
           "type": "Number",
           "props": {
-            "cardStyle": { "padding": 0 },
+            "cardStyle": {
+              "padding": 0
+            },
             "unit": "种",
             "prev_title": "上月数据"
           }
@@ -202,7 +285,9 @@
         "view": {
           "type": "Number",
           "props": {
-            "cardStyle": { "padding": 0 },
+            "cardStyle": {
+              "padding": 0
+            },
             "unit": "元",
             "prev_title": "上月数据"
           }
@@ -214,7 +299,9 @@
         "view": {
           "type": "Number",
           "props": {
-            "cardStyle": { "padding": 0 },
+            "cardStyle": {
+              "padding": 0
+            },
             "unit": "个",
             "prev_title": "上月数据"
           }
@@ -231,9 +318,17 @@
               {
                 "valueKey": "count",
                 "roseType": "area",
-                "radius": [10, 100],
-                "center": ["60%", "50%"],
-                "itemStyle": { "borderRadius": 6 }
+                "radius": [
+                  10,
+                  100
+                ],
+                "center": [
+                  "60%",
+                  "50%"
+                ],
+                "itemStyle": {
+                  "borderRadius": 6
+                }
               }
             ]
           }
@@ -242,8 +337,14 @@
           "type": "Table",
           "props": {
             "columns": [
-              { "title": "类型", "dataIndex": "type" },
-              { "title": "数量", "dataIndex": "count" }
+              {
+                "title": "类型",
+                "dataIndex": "type"
+              },
+              {
+                "title": "数量",
+                "dataIndex": "count"
+              }
             ]
           }
         }
@@ -263,9 +364,15 @@
                 "valueKey": "count",
                 "type": "bar",
                 "colorBy": "data",
-                "itemStyle": { "borderRadius": 6 },
-                "splitLine": { "show": false },
-                "axisLabel": { "show": false }
+                "itemStyle": {
+                  "borderRadius": 6
+                },
+                "splitLine": {
+                  "show": false
+                },
+                "axisLabel": {
+                  "show": false
+                }
               }
             ]
           }
@@ -274,8 +381,14 @@
           "type": "Table",
           "props": {
             "columns": [
-              { "title": "状态", "dataIndex": "status" },
-              { "title": "数量", "dataIndex": "count" }
+              {
+                "title": "状态",
+                "dataIndex": "status"
+              },
+              {
+                "title": "数量",
+                "dataIndex": "count"
+              }
             ]
           }
         }
@@ -286,23 +399,38 @@
           "type": "LineBar",
           "props": {
             "nameKey": "name",
-            "axisLabel": { "interval": 0, "fontSize": 12 },
+            "axisLabel": {
+              "interval": 0,
+              "fontSize": 12
+            },
             "series": [
               {
                 "valueKey": "stay",
                 "type": "line",
                 "smooth": true,
                 "symbolSize": 8,
-                "itemStyle": { "borderRadius": 6 },
-                "splitLine": { "show": false },
-                "axisLabel": { "show": false }
+                "itemStyle": {
+                  "borderRadius": 6
+                },
+                "splitLine": {
+                  "show": false
+                },
+                "axisLabel": {
+                  "show": false
+                }
               },
               {
                 "valueKey": "cost",
                 "type": "bar",
-                "itemStyle": { "borderRadius": 6 },
-                "splitLine": { "show": false },
-                "axisLabel": { "show": false }
+                "itemStyle": {
+                  "borderRadius": 6
+                },
+                "splitLine": {
+                  "show": false
+                },
+                "axisLabel": {
+                  "show": false
+                }
               }
             ]
           }
