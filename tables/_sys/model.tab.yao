@@ -1,0 +1,177 @@
+{
+    "name": "模型管理",
+    "action": {
+        "bind": {
+            "form": ""
+        },
+        "search": {
+            "process": "scripts._sys.model.ModelSearch",
+        }
+    },
+    "layout": {
+        "primary": "id",
+        "header": {
+            "preset": {}
+        },
+        "filter": {
+            "columns": [
+                {
+                    "name": "模型ID",
+                    "width": 4,
+                },
+                {
+                    "name": "名称",
+                    "width": 4,
+                },
+            ],
+            "actions": []
+        },
+        "table": {
+            "columns": [
+                {
+                    "name": "模型ID",
+                    "width": 20,
+                },
+                {
+                    "name": "名称",
+                    "width": 150,
+                },
+                {
+                    "name": "表格是否存在",
+                    "width": 150,
+                },
+                {
+                    "name": "表单是否存在",
+                    "width": 150,
+                }
+            ],
+            "operation": {
+                "fold": false,
+                "actions": [
+                    {
+                        "action": [
+                            {
+                                "name": "createTable",
+                                "payload": {
+                                    "args": [
+                                        "{{id}}"
+                                    ], //使用{{}}的语法传入参数
+                                    "method": "createTable"
+                                },
+                                "type": "Service.sys" //类型为service，sys对应services/sys.js文件
+                            },
+                            {
+                                "name": "refetch",
+                                "type": "Common.refetch"
+                            },
+                            {
+                                "name": "message",
+                                "payload": {
+                                    "type": "[[$createTable.type]]",
+                                    "content": "[[$createTable.message]]"
+                                },
+                                "type": "Common.showMessage" //类型为service，sys对应services/sys.js文件
+                            }
+                        ],
+                        "icon": "icon-plus",
+                        "showWhenAdd": false,
+                        "hideWhenEdit": true,
+                        "showWhenView": true,
+                        "title": "创建表格配置"
+                    },
+                    {
+                        "action": [
+                            {
+                                "name": "createForm",
+                                "payload": {
+                                    "args": [
+                                        "{{id}}"
+                                    ], //使用{{}}的语法传入参数
+                                    "method": "createForm"
+                                },
+                                "type": "Service.sys" //类型为service，sys对应services/sys.js文件
+                            },
+                            {
+                                "name": "refetch",
+                                "type": "Common.refetch"
+                            },
+                            {
+                                "name": "message",
+                                "payload": {
+                                    "type": "[[$createForm.type]]",
+                                    "content": "[[$createForm.message]]"
+                                },
+                                "type": "Common.showMessage" //类型为service，sys对应services/sys.js文件
+                            }
+                        ],
+                        "icon": "icon-file-plus",
+                        "showWhenAdd": false,
+                        "hideWhenEdit": true,
+                        "showWhenView": true,
+                        "title": "创建表单配置"
+                    }
+                ]
+            }
+        },
+    },
+    "fields": {
+        "filter": {
+            "模型ID": {
+                "bind": "where.id.match",
+                "edit": {
+                    "type": "Input",
+                    "compute": "Trim",
+                    "props": {
+                        "placeholder": "请输入模型ID搜索"
+                    }
+                }
+            },
+            "名称": {
+                "bind": "where.name.match",
+                "edit": {
+                    "type": "Input",
+                    "compute": "Trim",
+                    "props": {
+                        "placeholder": "请输入名称搜索"
+                    }
+                }
+            }
+        },
+        "table": {
+            "模型ID": {
+                "bind": "id",
+                "view": {
+                    "type": "Text",
+                }
+            },
+            "名称": {
+                "bind": "name",
+                "view": {
+                    "type": "Text",
+                }
+            },
+            "表格是否存在": {
+                "bind": "table_exist",
+                "view": {
+                    "type": "Switch",
+                    "props": {
+                        "checkedValue": true,
+                        "unCheckedValue": false,
+                        "disabled": true
+                    }
+                }
+            },
+            "表单是否存在": {
+                "bind": "form_exist",
+                "view": {
+                    "type": "Switch",
+                    "props": {
+                        "checkedValue": true,
+                        "unCheckedValue": false,
+                        "disabled": true
+                    }
+                }
+            }
+        }
+    }
+}

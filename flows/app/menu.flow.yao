@@ -75,6 +75,22 @@
             "visible_menu": 1
           }
         ]
+      },
+      {
+        "blocks": 0,
+        "icon": "icon-book",
+        "name": "系统管理",
+        "visible_menu": 0,
+        "badge": 0,
+        "path": "/x/Table/_sys.model",
+        "children": [
+          {
+            "blocks": 0,
+            "name": "模型管理",
+            "path": "/x/Table/_sys.model",
+            "visible_menu": 1
+          }
+        ]
       }
     ]
   }

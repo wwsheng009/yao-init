@@ -24,7 +24,6 @@ export function MakeDefaultTable(modelId) {
     const folder = paths.join('/');
     fs.MkdirAll(folder);
     fs.WriteFile(filename, JSON.stringify(default1));
-    console.log('已生成最小化配置Table:', filename);
     return false;
   } else {
     return true;
@@ -56,22 +55,69 @@ export function MakeDefaultForm(modelId) {
     return true;
   }
 }
+
+/**
+ * yao run scripts.studio.init.getModelMeta admin.user
+ * @param modelId model id
+ * @returns {table_exist:boolean,form_exist:boolean}
+ */
+function getModelMeta(modelId) {
+  return {
+    table_exist: checkTableExist(modelId),
+    form_exist: checkFormExist(modelId)
+  };
+}
+
+/**
+ * yao run scripts.studio.init.checkTableExist admin.user
+ * @param modelId model id
+ * @returns boolean
+ */
+function checkTableExist(modelId) {
+  const filename = `tables/${modelId.split('.').join('/')}.tab.yao`;
+  const fs = new FS('app');
+  if (fs.Exists(filename)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/**
+ * yao run scripts.studio.init.checkFormExist admin.user
+ * @param modelId model id
+ * @returns boolean
+ */
+function checkFormExist(modelId) {
+  const filename = `forms/${modelId.split('.').join('/')}.form.yao`;
+  const fs = new FS('app');
+  if (fs.Exists(filename)) {
+    return true;
+  } else {
+    return false;
+  }
+}
 /**
  * 初始化表格的配置文件。
+ *
+ * yao run scripts.studio.init.CreateTable admin.user
  * @param modelId 表格名称
  */
 function CreateTable(modelId) {
   const exist = MakeDefaultTable(modelId);
   if (exist == false) {
-    console.log('需要生成全配置Table,请再执行一次命令');
-    return;
+    return {
+      message: '最小配置已生成，需要生成全配置Table,请再执行一次命令',
+      type: 'warning'
+    };
   }
   //如果不存在，需要执行两次，要不然yao.table.Setting无法加载文件
   const filename = `tables/${modelId.split('.').join('/')}.tab.yao`;
   // let table_file = `tables/${table.split(".").join("/")}.tab.yao`;
   const setting = Process('yao.table.Setting', modelId);
   if (setting.code && setting.message) {
-    throw new Exception(setting.message, setting.code);
+    return { message: setting.message, type: 'error' };
+    // throw new Exception(setting.message, setting.code);
   }
   delete setting['hooks'];
   //重新近排布局
@@ -127,7 +173,9 @@ function CreateTable(modelId) {
   deleteObjectKey(newTable, 'id');
   const fs = new FS('app');
   if (fs.Exists(filename)) {
-    const template = JSON.parse(fs.ReadFile(filename));
+    //remove all comment lines in json string
+    const text = fs.ReadFile(filename).replace(/\/\/.*\n/g, '');
+    const template = JSON.parse(text);
     //如果不存在配置，增加，不要直接替换
     newTable.action = template.action;
     newTable.name = template.name;
@@ -146,7 +194,11 @@ function CreateTable(modelId) {
     filename.slice(0, -3) + 'default.yao',
     JSON.stringify(newTable)
   );
-  console.log(rc);
+  if (rc) {
+    return { message: '创建表格成功', type: 'success' };
+  } else {
+    return { message: '创建表格失败', type: 'error' };
+  }
 }
 /**
  * 创建表单的配置文件，适用于初始化表单配置
@@ -155,8 +207,11 @@ function CreateTable(modelId) {
 function CreateForm(modelId) {
   const exist = MakeDefaultForm(modelId);
   if (exist == false) {
-    console.log('需要生成全配置Form,请再执行一次');
-    return;
+    // console.log('需要生成全配置Form,请再执行一次');
+    return {
+      message: '最小配置已生成，需要生成全配置Form,请再执行一次命令',
+      type: 'warning'
+    };
   }
   //如果不存在，需要执行两次，要不然yao.form.Setting无法加载文件
   const filename = `forms/${modelId.split('.').join('/')}.form.yao`;
@@ -191,7 +246,10 @@ function CreateForm(modelId) {
   // 合并原来的配置
   const fs = new FS('app');
   if (fs.Exists(filename)) {
-    const template = JSON.parse(fs.ReadFile(filename));
+    //读取文件内容并删除所有注释行
+    const text = fs.ReadFile(filename).replace(/\/\/.*\n/g, '');
+
+    const template = JSON.parse(text);
     newForm.action = template.action;
     newForm.name = template.name;
     // for (const key in template) {
@@ -234,7 +292,7 @@ function CreateForm(modelId) {
     },
     {
       icon: 'icon-trash-2',
-      style: 'danger',
+      style: 'error',
       title: 'Delete',
       action: [
         {
@@ -270,7 +328,12 @@ function CreateForm(modelId) {
     filename.slice(0, -3) + 'default.yao',
     JSON.stringify(newForm)
   );
-  console.log(rc);
+  console.log('WriteFile：' + rc);
+  if (rc) {
+    return { message: '创建表单成功', type: 'success' };
+  } else {
+    return { message: '创建表单失败', type: 'error' };
+  }
 }
 /**
  * delete special key in object
@@ -308,7 +371,6 @@ function CreateTableAndForm(model) {
   CreateForm(model);
 }
 
-
 /**
  * get the id list of the cached models 读取所有的模型id的列表
  *
@@ -322,7 +384,6 @@ export function getCachedModelIDList(): string[] {
  * yao studio run init.CreateTableAndFormForAll
  */
 export function CreateTableAndFormForAll() {
- 
   getCachedModelIDList().forEach((m) => {
     CreateTableAndForm(m);
   });
