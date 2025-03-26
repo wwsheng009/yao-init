@@ -24,7 +24,27 @@
                     "width": 4,
                 },
             ],
-            "actions": []
+            "actions": [
+                {
+                    "action": [
+                        {
+                            "name": "reloadMenu",
+                            "type": "Common.reloadMenu"
+                        },
+                        {
+                            "name": "message",
+                            "payload": {
+                                "type": "success",
+                                "content": "加载成功"
+                            },
+                            "type": "Common.showMessage" //类型为service，sys对应services/sys.js文件
+                        }
+                    ],
+                    "icon": "icon-menu",
+                    "showWhenView": true,
+                    "title": "重新加载系统菜单"
+                },
+            ]
         },
         "table": {
             "columns": [
@@ -113,6 +133,35 @@
                         "icon": "icon-file-plus",
                         "showWhenView": true,
                         "title": "创建表单配置"
+                    },
+                    {
+                        "action": [
+                            {
+                                "name": "updateMenu",
+                                "payload": {
+                                    "args": [
+                                        "{{id}}"
+                                    ],
+                                    "method": "updateMenu"
+                                },
+                                "type": "Service.sys" //类型为service，sys对应services/sys.js文件
+                            },
+                            {
+                                "name": "message",
+                                "payload": {
+                                    "type": "[[$updateMenu.type]]",
+                                    "content": "[[$updateMenu.message]]"
+                                },
+                                "type": "Common.showMessage" //类型为service，sys对应services/sys.js文件
+                            }
+                        ],
+                        "disabled": {
+                            "bind": "{{table_exist}}",
+                            "value": "false"
+                        },
+                        "icon": "icon-menu",
+                        "showWhenView": true,
+                        "title": "更新菜单配置"
                     },
                     {
                         "action": [

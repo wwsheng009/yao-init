@@ -2,6 +2,71 @@
 
 import { Exception, FS, Process } from '@yaoapps/client';
 
+/**
+ * yao run scripts.studio.init.updateMenu
+ * @param modelId model id
+ * @returns message
+ */
+export function updateMenu(modelId) {
+  const check = Process('model.exists', modelId);
+  if (!check) {
+    return {
+      message: '模型不存在' + modelId,
+      type: 'error'
+    };
+  }
+  const modelInfo = Process('model.get', modelId);
+
+  const filename = `flows/app/menu.flow.yao`;
+  const fs = new FS('app');
+
+  if (fs.Exists(filename)) {
+    //remove all comment lines in json string
+    const text = fs.ReadFile(filename).replace(/\/\/.*\n/g, '');
+    const menu = JSON.parse(text);
+    // 检查菜单项中是否存在对应的表格路径
+    // 查找是否存在相同路径的菜单项
+    const existingIndex = menu.output.items.findIndex(
+      (x) => x.path === `/x/Table/${modelId}`
+    );
+    // 创建新的菜单项
+    const newMenuItem = {
+      icon: 'icon-book',
+      name: modelInfo.name,
+      badge: 0,
+      path: `/x/Table/${modelId}`,
+      children: [
+        {
+          name: modelInfo.name,
+          path: `/x/Table/${modelId}`
+        }
+      ]
+    };
+
+    // 如果存在则在原位置更新，否则添加到末尾
+    if (existingIndex !== -1) {
+      menu.output.items[existingIndex] = newMenuItem;
+      fs.WriteFile(filename, JSON.stringify(menu));
+      return {
+        message: '菜单更新成功:' + modelId,
+        type: 'success'
+      };
+    } else {
+      menu.output.items.push(newMenuItem);
+      fs.WriteFile(filename, JSON.stringify(menu));
+      return {
+        message: '菜单创建成功:' + modelId,
+        type: 'success'
+      };
+    }
+  } else {
+    return {
+      message: '菜单配置文件不存在:' + modelId,
+      type: 'error'
+    };
+  }
+}
+
 //但是这些配置都是默认项，一般情况是够用了，如果需要更多的配置，就需要手动修改配置文件。
 export function MakeDefaultTable(modelId) {
   const filename = `tables/${modelId.split('.').join('/')}.tab.yao`;
@@ -49,7 +114,6 @@ export function MakeDefaultForm(modelId) {
     const folder = paths.join('/');
     fs.MkdirAll(folder);
     fs.WriteFile(filename, JSON.stringify(default1));
-    console.log('已生成最小化配置Form:', filename);
     return false;
   } else {
     return true;

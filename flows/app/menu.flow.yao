@@ -4,7 +4,6 @@
   "output": {
     "setting": [
       {
-        "blocks": 0,
         "icon": "icon-user",
         "name": "管理员",
         "path": "/x/Table/admin.user",
@@ -14,13 +13,13 @@
         "icon": "icon-settings",
         "id": 999999,
         "name": "设置",
-        "path": "/x/Form/tests.pet/1/edit",
+        "path": "/x/Table/_sys.model",
         "dot": true,
+        "visible_menu": 0,
         "children": [
           {
-            "name": "设置项演示",
-            "badge": 24,
-            "path": "/x/Form/tests.pet/1/edit"
+            "name": "模型管理",
+            "path": "/x/Table/_sys.model"
           },
           {
             "name": "系统设置",
@@ -72,22 +71,6 @@
           {
             "name": "自定义页面",
             "path": "/iframe?src=/index",
-            "visible_menu": 1
-          }
-        ]
-      },
-      {
-        "blocks": 0,
-        "icon": "icon-book",
-        "name": "系统管理",
-        "visible_menu": 0,
-        "badge": 0,
-        "path": "/x/Table/_sys.model",
-        "children": [
-          {
-            "blocks": 0,
-            "name": "模型管理",
-            "path": "/x/Table/_sys.model",
             "visible_menu": 1
           }
         ]

@@ -6,3 +6,7 @@ export function createTable(id) {
 export function createForm(id) {
   return Process('scripts.studio.init.CreateForm', id);
 }
+
+export function updateMenu(id) {
+  return Process('scripts.studio.init.updateMenu', id);
+}
