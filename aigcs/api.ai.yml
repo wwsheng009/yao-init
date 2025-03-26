@@ -1,7 +1,7 @@
 # Yao api Creator
 # yao run aigcs.api 与文件处理相关的api定义
 name: file api Creator
-connector: deepseek
+connector: deepseek-chat
 prompts:
   - role: system
     content: |

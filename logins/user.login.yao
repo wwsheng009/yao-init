@@ -5,7 +5,7 @@
     "args": [":payload"]
   },
   "layout": {
-    "entry": "/x/Table/tests.pet",
+    "entry": "/x/Table/admin.user",
     "slogan": "::Make Your Dream With Yao App Engine",
     "site": "https://yaoapps.com/?from=instance-user-login"
   }

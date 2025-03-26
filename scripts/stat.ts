@@ -50,7 +50,7 @@ export function OnChange(query) {
     data.cost = 1000;
   }
 
-  const setting = Process('yao.form.Setting', 'tests.pet');
+  const setting = Process('yao.form.Setting', 'admin.user');
 
   if (setting && setting.code && setting.message) {
     throw new Exception(setting.message, 500);

@@ -79,7 +79,7 @@
         "view": {
           "type": "base/Table",
           "props": {
-            "model": "tests.pet",
+            "model": "admin.user",
             "onChangeEvent": false
           }
         }

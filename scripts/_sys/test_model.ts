@@ -1,5 +1,5 @@
 import { YaoQueryParam } from '@yaoapps/types';
-import { PaginateDataArray } from '../_sys/lib';
+import { PaginateDataArray } from './lib';
 
 // 测试数据集
 const testData = [

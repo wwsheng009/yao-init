@@ -1,8 +1,8 @@
 {
-    "label": "deepseek ai model",
+    "label": "deepseek r1 ai model",
     "type": "openai",
     "options": {
-        "model": "deepseek-chat",
+        "model": "deepseek-r1",
         "key": "$ENV.DEEPSEEK_KEY",
         "proxy": "https://api.deepseek.com"
     }
