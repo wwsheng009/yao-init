@@ -2,8 +2,16 @@
 
 import { Exception, FS, Process } from '@yaoapps/client';
 
+function getModelInfo(modelId) {
+  const check = Process('model.exists', modelId);
+  if (!check) {
+    return null;
+  }
+  return Process('model.get', modelId);
+}
+
 /**
- * yao run scripts.studio.init.updateMenu
+ * yao run scripts._sys.init.updateMenu
  * @param modelId model id
  * @returns message
  */
@@ -69,26 +77,31 @@ export function updateMenu(modelId) {
 
 //但是这些配置都是默认项，一般情况是够用了，如果需要更多的配置，就需要手动修改配置文件。
 export function MakeDefaultTable(modelId) {
+  const formExist = checkFormExist(modelId);
+  const modelInfo = getModelInfo(modelId);
   const filename = `tables/${modelId.split('.').join('/')}.tab.yao`;
   const fs = new FS('app');
-  const default1 = {
-    name: '::' + modelId,
+  const schema = {
+    name: modelInfo?.name || '::' + modelId,
     action: {
       bind: {
         model: modelId,
         option: {
-          withs: {},
-          form: modelId //有form才会生成创建按钮
+          withs: {}
+          // form: modelId //有form才会生成创建按钮
         }
       }
     }
   };
+  if (formExist) {
+    schema.action.bind.option.form = modelId;
+  }
   if (!fs.Exists(filename)) {
     const paths = `tables/${modelId.split('.').join('/')}`.split('/');
     paths.pop();
     const folder = paths.join('/');
     fs.MkdirAll(folder);
-    fs.WriteFile(filename, JSON.stringify(default1));
+    fs.WriteFile(filename, JSON.stringify(schema));
     return false;
   } else {
     return true;
@@ -121,11 +134,11 @@ export function MakeDefaultForm(modelId) {
 }
 
 /**
- * yao run scripts.studio.init.getModelMeta admin.user
+ * yao run scripts._sys.init.getModelMeta admin.user
  * @param modelId model id
  * @returns {table_exist:boolean,form_exist:boolean}
  */
-function getModelMeta(modelId) {
+export function getModelMeta(modelId) {
   return {
     table_exist: checkTableExist(modelId),
     form_exist: checkFormExist(modelId)
@@ -133,7 +146,7 @@ function getModelMeta(modelId) {
 }
 
 /**
- * yao run scripts.studio.init.checkTableExist admin.user
+ * yao run scripts._sys.init.checkTableExist admin.user
  * @param modelId model id
  * @returns boolean
  */
@@ -148,7 +161,7 @@ function checkTableExist(modelId) {
 }
 
 /**
- * yao run scripts.studio.init.checkFormExist admin.user
+ * yao run scripts._sys.init.checkFormExist admin.user
  * @param modelId model id
  * @returns boolean
  */
@@ -164,10 +177,12 @@ function checkFormExist(modelId) {
 /**
  * 初始化表格的配置文件。
  *
- * yao run scripts.studio.init.CreateTable admin.user
+ * yao run scripts._sys.init.CreateTable admin.user
  * @param modelId 表格名称
  */
 function CreateTable(modelId) {
+
+
   const exist = MakeDefaultTable(modelId);
   if (exist == false) {
     return {
@@ -175,6 +190,10 @@ function CreateTable(modelId) {
       type: 'warning'
     };
   }
+
+  const formExist = checkFormExist(modelId);
+  const modelInfo = getModelInfo(modelId);
+
   //如果不存在，需要执行两次，要不然yao.table.Setting无法加载文件
   const filename = `tables/${modelId.split('.').join('/')}.tab.yao`;
   // let table_file = `tables/${table.split(".").join("/")}.tab.yao`;
@@ -186,12 +205,12 @@ function CreateTable(modelId) {
   delete setting['hooks'];
   //重新近排布局
   const newTable = {
-    name: '::' + modelId,
+    name: modelInfo?.name || '::' + modelId,
     action: {
       bind: {
         model: modelId,
         option: {
-          form: modelId,
+          // form: modelId,
           withs: {}
         }
       }
@@ -199,6 +218,9 @@ function CreateTable(modelId) {
     layout: {},
     fields: {}
   };
+  if (formExist) {
+    newTable.action.bind.option.form = modelId;
+  }
   const fields = setting.fields;
   delete setting.fields;
   newTable.layout = setting;
@@ -231,7 +253,7 @@ function CreateTable(modelId) {
   if (!newTable?.layout?.filter?.actions) {
     newTable.layout.filter.actions = [];
   }
-  if (newTable.layout.filter.actions.length == 0) {
+  if (newTable.layout.filter.actions.length == 0 && formExist) {
     newTable.layout.filter.actions.push(createAction);
   }
   deleteObjectKey(newTable, 'id');
@@ -392,7 +414,6 @@ function CreateForm(modelId) {
     filename.slice(0, -3) + 'default.yao',
     JSON.stringify(newForm)
   );
-  console.log('WriteFile：' + rc);
   if (rc) {
     return { message: '创建表单成功', type: 'success' };
   } else {
@@ -438,14 +459,14 @@ function CreateTableAndForm(model) {
 /**
  * get the id list of the cached models 读取所有的模型id的列表
  *
- * yao run scripts.studio.init.getCachedModelIDList
+ * yao run scripts._sys.init.getCachedModelIDList
  * @returns list of the cached model ids
  */
 export function getCachedModelIDList(): string[] {
   return Process('model.list').map((m) => m.id);
 }
 /**
- * yao studio run init.CreateTableAndFormForAll
+ * yao run scripts._sys.init.CreateTableAndFormForAll
  */
 export function CreateTableAndFormForAll() {
   getCachedModelIDList().forEach((m) => {
@@ -456,8 +477,8 @@ export function CreateTableAndFormForAll() {
 //直接ts执行
 
 // 使用命令行
-// yao run scripts.studio.init.CreateTable admin.user
-// yao run scripts.studio.init.CreateForm admin.user
-// yao run scripts.studio.init.CreateTableAndForm admin.user
+// yao run scripts._sys.init.CreateTable admin.user
+// yao run scripts._sys.init.CreateForm admin.user
+// yao run scripts._sys.init.CreateTableAndForm admin.user
 // 创建所有
-// yao run scripts.studio.init.CreateTableAndFormForAll
+// yao run scripts._sys.init.CreateTableAndFormForAll

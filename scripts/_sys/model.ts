@@ -24,7 +24,7 @@ export function getCachedModelList(): CachedModel[] {
   const modelsList = Process('model.list', { metadata: true });
 
   return modelsList.map((m) => {
-    const meta = Process('scripts.studio.init.getModelMeta', m.id);
+    const meta = Process('scripts._sys.init.getModelMeta', m.id);
     if (meta.table_exist) {
       meta.table_url = `/admin/x/Table/${m.id}`;
     }

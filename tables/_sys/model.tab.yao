@@ -79,35 +79,6 @@
                     {
                         "action": [
                             {
-                                "name": "createTable",
-                                "payload": {
-                                    "args": [
-                                        "{{id}}"
-                                    ], //使用{{}}的语法传入参数
-                                    "method": "createTable"
-                                },
-                                "type": "Service.sys" //类型为service，sys对应services/sys.js文件
-                            },
-                            {
-                                "name": "refetch",
-                                "type": "Common.refetch"
-                            },
-                            {
-                                "name": "message",
-                                "payload": {
-                                    "type": "[[$createTable.type]]",
-                                    "content": "[[$createTable.message]]"
-                                },
-                                "type": "Common.showMessage" //类型为service，sys对应services/sys.js文件
-                            }
-                        ],
-                        "icon": "icon-plus",
-                        "showWhenView": true,
-                        "title": "创建表格配置"
-                    },
-                    {
-                        "action": [
-                            {
                                 "name": "createForm",
                                 "payload": {
                                     "args": [
@@ -133,6 +104,35 @@
                         "icon": "icon-file-plus",
                         "showWhenView": true,
                         "title": "创建表单配置"
+                    },
+                    {
+                        "action": [
+                            {
+                                "name": "createTable",
+                                "payload": {
+                                    "args": [
+                                        "{{id}}"
+                                    ], //使用{{}}的语法传入参数
+                                    "method": "createTable"
+                                },
+                                "type": "Service.sys" //类型为service，sys对应services/sys.js文件
+                            },
+                            {
+                                "name": "refetch",
+                                "type": "Common.refetch"
+                            },
+                            {
+                                "name": "message",
+                                "payload": {
+                                    "type": "[[$createTable.type]]",
+                                    "content": "[[$createTable.message]]"
+                                },
+                                "type": "Common.showMessage" //类型为service，sys对应services/sys.js文件
+                            }
+                        ],
+                        "icon": "icon-plus",
+                        "showWhenView": true,
+                        "title": "创建表格配置"
                     },
                     {
                         "action": [
