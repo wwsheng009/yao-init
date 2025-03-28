@@ -81,3 +81,7 @@ allows:
   - "http://127.0.0.1:5099"
   - "http://localhost:5099"
   - "http://localhost:8000"
+
+connectors:
+  deepseek-chat:
+    tools: true

@@ -54,18 +54,18 @@
           {
             "blocks": 0,
             "name": "表格",
-            "path": "/x/Table/tests.pet",
+            "path": "/x/Table/admin.user",
             "visible_menu": 1
           },
           {
             "blocks": 0,
             "name": "表单(编辑)",
-            "path": "/x/Form/tests.pet/1/edit",
+            "path": "/x/Form/admin.user/1/edit",
             "visible_menu": 1
           },
           {
             "name": "表单(查看)",
-            "path": "/x/Form/tests.pet/1/view",
+            "path": "/x/Form/admin.user/1/view",
             "visible_menu": 1
           },
           {
