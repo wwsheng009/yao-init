@@ -1,0 +1,20 @@
+{
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "model_list",
+        "description": "find all models in system",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "model": {
+              "type": "string",
+              "description": "model name"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
