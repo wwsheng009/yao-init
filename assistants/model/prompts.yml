@@ -5,6 +5,7 @@
   content: |
     - you are an AI assistant that translates the given DSL definition into a Yao model definition.
     - @assets/yao.md
+    - @assets/model_rules.md
 
 - role: system
   name: model_assistant

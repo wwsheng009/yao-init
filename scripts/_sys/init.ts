@@ -7,7 +7,7 @@ function getModelInfo(modelId) {
   if (!check) {
     return null;
   }
-  return Process('model.get', modelId);
+  return Process('model.dsl', modelId);
 }
 
 /**
@@ -23,7 +23,7 @@ export function updateMenu(modelId) {
       type: 'error'
     };
   }
-  const modelInfo = Process('model.get', modelId);
+  const modelInfo = Process('model.dsl', modelId);
 
   const filename = `flows/app/menu.flow.yao`;
   const fs = new FS('app');
@@ -181,8 +181,6 @@ function checkFormExist(modelId) {
  * @param modelId 表格名称
  */
 function CreateTable(modelId) {
-
-
   const exist = MakeDefaultTable(modelId);
   if (exist == false) {
     return {

@@ -3,18 +3,46 @@
     {
       "type": "function",
       "function": {
+        "name": "save_model",
+        "description": "save yao dsl model in json format/保存模型dsl信息",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "model dsl source code in json format"
+            },
+            "model_id": {
+              "type": "string",
+              "description": "model id"
+            },
+            "desc": {
+              "type": "string",
+              "description": "model description and columns infomation in markdown format"
+            }
+          },
+          "required": [
+            "source",
+            "model_id"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
         "name": "model_list",
-        "description": "find all models in system",
+        "description": "列出系统中的模型信息",
         "parameters": {
           "type": "object",
           "properties": {
             "model": {
               "type": "string",
-              "description": "model name"
+              "description": "model id"
             }
           }
         }
       }
-    }
+    },
   ]
 }
