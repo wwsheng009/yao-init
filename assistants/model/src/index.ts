@@ -104,7 +104,7 @@ export function Done(
       try {
         const fs = new FS('data');
         // const dsl = JSON.parse(source);
-        fs.WriteFile('temp/' + model_id + '.yao', source);
+        fs.WriteFile('temp/' + model_id + '.mod.yao', source);
         // Process('model.create', dsl);
 
         // 将用户数据转换为markdown格式输出

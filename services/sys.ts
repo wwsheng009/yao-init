@@ -15,9 +15,9 @@ export function saveModel(id) {
   console.log('save model_id', id);
 
   const fs = new FS('app');
-  fs.Move(`/data/temp/${id}.yao`, `/models/${id}.yao`);
+  fs.Move(`/data/temp/${id}.mod.yao`, `/models/${id}.mod.yao`);
 
-  const source = fs.ReadFile(`/models/${id}.yao`);
+  const source = fs.ReadFile(`/models/${id}.mod.yao`);
 
   Process('model.load', id, source);
   Process('model.migrate', id);
