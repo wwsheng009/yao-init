@@ -63,14 +63,40 @@ export function Done(
       Send(
         {
           text: '',
-          type: 'page',
+          type: 'action',
           props: {
-            url: '/index'
+            action: [
+              {
+                type: 'Common.emitEvent',
+                payload: {
+                  key: 'app/openSidebar',
+                  value: true
+                }
+              },
+              {
+                type: 'Common.historyPush',
+                name: 'historyPush',
+                payload: {
+                  pathname: '/x/Table/_sys.model'
+                }
+              }
+            ]
           },
           done: true
         },
         true
       );
+      // Send(
+      //   {
+      //     text: '',
+      //     type: 'page',
+      //     props: {
+      //       url: '/admin/x/Table/_sys.model'
+      //     },
+      //     done: true
+      //   },
+      //   true
+      // );
     } else if (funcName == 'save_model') {
       const source = lastLine.props['arguments']['source'];
       const model_id = lastLine.props['arguments']['model_id'];
@@ -78,7 +104,7 @@ export function Done(
       try {
         const fs = new FS('data');
         // const dsl = JSON.parse(source);
-        fs.WriteFile('temp/' + model_id + '.json', source);
+        fs.WriteFile('temp/' + model_id + '.yao', source);
         // Process('model.create', dsl);
 
         // 将用户数据转换为markdown格式输出
@@ -109,6 +135,20 @@ export function Done(
                       payload: {
                         args: [model_id], //使用{{}}的语法传入参数
                         method: 'saveModel'
+                      }
+                    },
+                    {
+                      type: 'Common.emitEvent',
+                      payload: {
+                        key: 'app/openSidebar',
+                        value: true
+                      }
+                    },
+                    {
+                      type: 'Common.historyPush',
+                      name: 'historyPush',
+                      payload: {
+                        pathname: '/x/Table/_sys.model'
                       }
                     }
                   ],

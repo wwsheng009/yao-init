@@ -23,5 +23,13 @@
         "presence_penalty": 0
     },
     "avatar": "https://cdn.pixabay.com/photo/2016/08/20/05/38/avatar-1606916_960_720.png",
-    "prompts": ""
+    "prompts": "",
+    "placeholder": {
+        "title": "模型助手",
+        "description": "模型助手",
+        "prompts": [
+            "创建一个手机模型，并保存模型源代码",
+            "列出所有的系统模型"
+        ]
+    }
 }

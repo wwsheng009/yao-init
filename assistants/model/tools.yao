@@ -18,7 +18,7 @@
             },
             "desc": {
               "type": "string",
-              "description": "model description and columns infomation in markdown format"
+              "description": "model description and columns infomation in markdown format，list columns in markdown table format"
             }
           },
           "required": [
