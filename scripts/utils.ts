@@ -35,7 +35,7 @@ export function ResetAdmins() {
 
   const admin = {
     email: 'demo@moapi.ai',
-    password: 'demo@5099',
+    password: 'Demo@5099',
     type: 'admin'
   };
   Process('models.admin.user.Save', admin); // Save the admin

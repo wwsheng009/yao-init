@@ -1,5 +1,9 @@
 connector: deepseek-chat
-use: "neo" # default assistannt
+use: 
+  default: 'neo' # default assistannt
+  title: 'neo'
+  prompt: 'neo'
+  
 guard: "scripts.guard.Chat"
 
 store:

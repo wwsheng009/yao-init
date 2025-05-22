@@ -146,6 +146,12 @@ export function PaginateDataArray(
       }
       return 0;
     });
+  } else if (filteredData.length > 0 && filteredData[0].id !== undefined) {
+    // 如果没有排序条件且数据中有id字段，则按id升序排序
+    filteredData = [...filteredData].sort((a, b) => {
+      if (a.id === b.id) return 0;
+      return a.id > b.id ? 1 : -1;
+    });
   }
 
   // 计算分页信息
