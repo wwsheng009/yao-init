@@ -1,4 +1,3 @@
-connector: deepseek-chat
 use: 
   default: 'neo' # default assistannt
   title: 'neo'
@@ -13,72 +12,36 @@ store:
   max_size: 100 #Maximum storage size limit
   ttl: 3600 #Time To Live in seconds
 
-# Setting RAG settings
-rag:
-  engine: #Engine the vector database engine settings
-    dirver: "" #qdrant  -> vector store driver,currently only support qdrant,empty means not using RAG
-    options: # use the $ENV.ENV_NAME to get the environment variable
-      host: ""
-      api_key: "sr-"
-      port: 80
+auth:
+  models:
+    user: "admin.user" # default is admin.user, The user model is a special model, it is used to handle the user, and the user is a user in the database.
+    guest: "guest" #The guest model is a special model, it is used to handle the guest user, and the guest user is not a user in the database.
+  fields:
+    id: "id" #the field name of the user id, default is id
+    roles: "roles" #the field name of the user roles, default is roles, it must be an JSON field.
+    permission: "permission" #the field name of the user permission, default is permission
+  session_fields:
+    id: "id" #the field name of the user id, default is id
+    roles: "user_roles" #the field name of the user roles, default is roles, it must be an JSON field.
+    guest: "guest" #the field name of the guest user, default is guest
 
-  vectorizer: #Vectorizer the text vectorizer settings , use the $ENV.ENV_NAME to get the environment variable
+knowledge:
+  vector:
     dirver: "" #openai -> embeddings driver,currently only support openai
     options:
       model: "text-embedding-ada-002" #default model for openai
       api_key: "sr-"
-
-  upload: #Upload the file upload settings
-    async: false
-    allowed_types: ["image/jpeg", "image/png", "image/jpg"]
-    chunk_size: 1024
-    chunk_overlap: 256
-  index_prefix: "yao_neo_"
-
-vision:
-  storage:
-    driver: "local" #local -> local storage, s3 -> s3 storage
-    options: #local storage options
-      path: "./storage/vision" #required for local storage
-      compression: true #whether to compress the image
-      base_url: "" # base url for the downloading file
-      preview_url: "" # preview url for the file
-
-    # options:  #s3 storage options
-    #   expiration: ""
-    #   endpoint: ""
-    #   region: "auto"
-    #   key: ""
-    #   secret: ""
-    #   bucket: ""
-    #   prefix: ""
-    #   compression: true
-
-
-  model: 
-    driver: "openai" #openai -> openai vision model
+  graph:
+    dirver: "" #neo4j -> graph database driver,currently only support neo4j
     options:
-      model: "openai/clip-vit-base-patch32"
+      url: ""
+      username: ""
+      password: ""    
+  vectorizer:
+    dirver: "" #openai -> vectorizer driver,currently only support openai
+    options:
+      model: "text-embedding-ada-002" #default model for openai
       api_key: "sr-"
-      compression: true
-      prompt: ""
-
-# prepare: "scripts.vector.Match"
-prompts:
-  - role: system
-    content: |
-      - You are pretending to be YAO's AI assistant and your name is Neo.
-      - Answer my questions in Chinese from now on.
-
-option: #options for chatting with the assistant
-  temperature: 0.8
-
-
-create: "scripts.ai.neo.Create" #create function for the assistant 选择assistant
-
-prepare: "scripts.ai.neo.prepare" #prepare function for the assistant不再使用，使用assistant代替
-write: "scripts.ai.neo.write"  #write function for the assistant 不再使用，使用assistant代替
-
 
 allows:
   - "http://127.0.0.1:8000"
@@ -88,4 +51,5 @@ allows:
 
 connectors:
   deepseek-chat:
+    vision: true
     tools: true

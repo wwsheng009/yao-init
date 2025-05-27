@@ -21,5 +21,14 @@
         "presence_penalty": 0
     },
     "avatar": "https://cdn.pixabay.com/photo/2023/03/13/23/48/woman-7851024_1280.jpg",
-    "prompts": ""
+    "prompts": "",
+    "workflow": {},
+    "placeholder": {
+        "title": "Chat with Neo",
+        "description": "我是一个聊天助手，你可以和我聊天。",
+        "prompts": [
+            "你可以和我聊天吗？"
+        ]
+    },
+    "locales": {}
 }

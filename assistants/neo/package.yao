@@ -5,8 +5,8 @@
     "assistant_id": "neo",
     "mentionable": true,
     "automated": false,
-    "readonly": false,
-    "built_in": false,
+    "readonly": true,
+    "built_in": true,
     "sort": 0,
     "path": "chat",
     "connector": "deepseek-chat",
@@ -21,5 +21,14 @@
         "presence_penalty": 0
     },
     "avatar": "https://cdn.pixabay.com/photo/2020/01/16/17/21/pantheon-4771206_1280.jpg",
-    "prompts": ""
+    "prompts": "",
+    "workflow": {},
+    "placeholder": {
+        "title": "Chat with Neo",
+        "description": "You can chat with Neo here.",
+        "prompts": [
+            "你知道如何构建一个Yao DSL模型吗？"
+        ]
+    },
+    "locales": {}
 }
