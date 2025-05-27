@@ -1,8 +1,7 @@
 import { ModelProxy } from '@lib/yao_proxy';
 import { IAdminUser } from '@yao/db_types/admin/user';
-import { neo } from '@yao/neo';
+import { Message, Send } from '@yao/neo';
 
-declare function Send(message: string | object): void;
 
 /**
  * called only once, when the call openai api done,open ai return messages
@@ -12,8 +11,8 @@ declare function Send(message: string | object): void;
  * @returns
  */
 export function Done(
-  input: neo.ChatMessage[],
-  output: neo.ChatMessage[]
+  input: Message[],
+  output: Message[]
 ): any | null | string {
   console.log('output');
   console.log(output);
@@ -32,7 +31,7 @@ export function Done(
           text: '',
           type: 'page',
           props: {
-            url: `/https://wttr.in/${lastLine.props['arguments']['location']}`
+            url: `https://wttr.in/${lastLine.props['arguments']['location']}`
           },
           done: true
         },
@@ -99,12 +98,19 @@ ${JSON.stringify(user, null, 2)}
               ]
             }
           },
-          false
+          true
         );
-        return null;
+        return {
+          output: [
+            {
+              text: '完成...',
+              type: 'text'
+            }
+          ]
+        };
       } else {
         return {
-          output: [{ text: '用户不存在' }] as neo.ChatMessage[]
+          output: [{ text: '用户不存在' }] as Message[]
         };
       }
     }
@@ -112,7 +118,7 @@ ${JSON.stringify(user, null, 2)}
     return {
       output: [
         { text: '错误的调用，不支持的函数调用：' + funcName }
-      ] as neo.ChatMessage[]
+      ] as Message[]
     };
   }
 }

@@ -50,7 +50,13 @@
       } // File system route
     ]
   },
-  
+  "developer": {
+    "id": "wwsheng009",
+    "name": "vincent wang",
+    "email": "vincentwwsheng@gmail.com",
+    "info": "Make the world a better place.",
+    "homepage": "https://github.com/wwsheng009"
+  },
   "optional": {
     /**
      *Enable remote cache for the application. When enabled,
