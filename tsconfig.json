@@ -5,15 +5,16 @@
     "esModuleInterop": true,
     "allowJs": false,
     "target": "ESNext",
+    "baseUrl": ".",
     "paths": {
       "@yao/*": [
-        "./.vscode/types/*"
+        ".vscode/types/*"
       ],
       "@lib/*": [
-        "./scripts/lib/*"
+        "scripts/lib/*"
       ],
       "@scripts/*": [
-        "./scripts/*"
+        "scripts/*"
       ]
     },
     "lib": [
@@ -27,11 +28,6 @@
   "exclude": [
     "node_modules",
     "dist"
-  ],
-  "include": [
-    "./scripts/**/*",
-    "./services/**/*",
-    "./assistants/**/*"
   ],
   "ts-node": {
     "require": [
