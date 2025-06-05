@@ -236,7 +236,7 @@ export type ResHookDone = null |  {
   /** hook input */
   input?: Message[];
   /** hook response */
-  output?: string | Message[];
+  output?: Message[];
   result?: any;
 }
 

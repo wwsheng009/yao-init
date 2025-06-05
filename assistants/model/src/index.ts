@@ -51,11 +51,15 @@ export function Done(
                 }
               }
             ]
-          },
-          done: true
+          }
         },
         true
       );
+      return {
+        output: [{
+          text: '处理完成'
+        }]
+      }
       // Send(
       //   {
       //     text: '',
@@ -78,7 +82,7 @@ export function Done(
         // Process('model.create', dsl);
 
         // 将用户数据转换为markdown格式输出
-
+        // 
         Send(
           {
             text: desc,
@@ -154,6 +158,11 @@ export function Done(
           },
           true
         );
+        return {
+          output: [{
+            text: '处理完成'
+          }]
+        }
       } catch (error) {
         Send({
           text: '创建模型失败：' + error,
@@ -165,7 +174,7 @@ export function Done(
       return {
         output: [
           { text: '错误的调用，不支持的函数调用：' + funcName }
-        ] as Message[]
+        ]
       };
     }
   }
