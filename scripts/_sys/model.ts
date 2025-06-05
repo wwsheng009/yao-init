@@ -1,4 +1,6 @@
 import { Process } from '@yaoapps/client';
+import { YaoQueryParam } from '@yaoapps/types';
+
 import { CachedModel, PaginateDataArray, PaginateSearchResult } from './lib';
 
 /**
