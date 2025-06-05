@@ -16,6 +16,12 @@ export interface PaginateSearchResult {
   /**总记录数 */
   total: number;
 }
+export interface CachedModel{
+  id:string;
+  name:string;
+  table:string;
+  form:string;
+}
 
 function matchWhereCondition(
   item: any,

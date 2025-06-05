@@ -1,3 +1,6 @@
+
+export const context: Context;
+
 /**
  * Represents the response structure of an operation or request.
  */
@@ -89,19 +92,54 @@ export interface ResponseWriter extends HttpResponseWriter, Hijacker {
 /**
  * Represents the context of an operation or request.
  */
+/**
+ * Represents the context of an operation or request.
+ */
 export interface Context {
-  /** Session ID, optional. */
+  /** Session ID，会话ID。 */
   sid: string;
+  /** Chat ID，聊天会话标识。 */
   chat_id?: string;
+  /** Assistant ID，助手标识。 */
   assistant_id?: string;
-  stack?: string;
-  path?: string;
-  formdata?: Payload;
-  field?: Field;
+  /** CUI 上下文 */
   namespace?: string;
+  /** 未来将移除 */
+  stack?: string;
+  /** 请求中的路径 */
+  path?: string;
+  /** 表单数据 */
+  formdata?: Payload;
+  /** 表单字段 */
+  field?: Field;
+  /** 配置信息 */
   config?: Payload;
+  /** 信号 */
   signal?: any;
-  upload?: FileUpload;
+  /** 请求的区域设置 */
+  locale?: string;
+  /** 主题 */
+  theme?: string;
+  /** 静默模式 */
+  silent?: boolean;
+  /** 请求的客户端类型，如 SDK、Desktop、Web、JSSDK 等，默认是 Web */
+  client_type?: string;
+  /** 历史记录是否可见，默认值为 true，若为 false，则历史记录不会在 UI 中显示 */
+  history_visible?: boolean;
+  /** 重试模式 */
+  retry?: boolean;
+  /** 重试次数 */
+  retry_times?: number;
+  /** 视觉支持 */
+  vision?: boolean;
+  /** 搜索支持 */
+  search?: boolean;
+  /** 知识支持 */
+  knowledge?: boolean;
+  /** 调用参数 */
+  args?: any[];
+  // Shared space，不在 JSON 序列化中体现
+  sharedSpace?: any; 
 }
 
 export interface FileUpload {
@@ -111,22 +149,51 @@ export interface FileUpload {
   temp_file?: string;
 }
 
-export interface ChatMessage {
-  type?: string;
-  id?: string;
-  text?: string;
-  props?: { [key: string]: any };
-}
-
 export interface Message {
+  /** 消息的 ID */
+  id?: string;
+  /** 消息的工具 ID */
+  tool_id?: string;
+  /** 文本内容 */
   text?: string;
+  /** 类型，如 error, text, plan, table, form, page, file, video, audio, image, markdown, json 等 */
   type?: string;
+  /** 类型对应的属性 */
   props?: Payload;
+  /** 标记为来自 neo 的已完成消息 */
   done?: boolean;
+  /** 标记为来自 neo 的新消息 */
+  new?: boolean;
+  /** 标记为来自 neo 的增量消息 */
+  delta?: boolean;
+  /** 前端的会话操作 */
   actions?: Action[];
+  /** 文件附件 */
   attachments?: Attachment[];
+  /** 角色，如 user, assistant, system 等 */
   role?: string;
+  /** 消息的名称 */
   name?: string;
+  /** 助手 ID（当角色为 assistant 时） */
+  assistant_id?: string;
+  /** 助手名称（当角色为 assistant 时） */
+  assistant_name?: string;
+  /** 助手头像（当角色为 assistant 时） */
+  assistant_avatar?: string;
+  /** 消息的提及（当角色为 user 时） */
+  mentions?: Mention[];
+  /** 消息是否处于待处理状态 */
+  hidden?: boolean;
+  /** 消息是否需要重试 */
+  retry?: boolean;
+  /** 消息是否静默（不在 UI 和历史记录中显示） */
+  silent?: boolean;
+  /** 消息的结果 */
+  result?: any;
+  /** 消息开始时间戳 */
+  begin?: number;
+  /** 消息结束时间戳 */
+  end?: number;
 }
 
 export interface Attachment {
@@ -141,13 +208,16 @@ export interface Attachment {
   assistant_id?: string;
 }
 
-export interface ResHookInit {
+export type ResHookInit =  null | string  | {
   assistant_id?: string;
   chat_id?: string;
   next?: NextAction;
   input?: Message[];
   options?: Payload;
+  result?: any;
 }
+
+export type ResHookRrety = string | boolean | { action: Action } | null;
 
 export interface ResHookStream {
   silent?: boolean;
@@ -160,15 +230,18 @@ export interface NextAction {
   payload?: Payload;
 }
 
-export interface ResHookDone {
+export type ResHookDone = null |  {
+  /** next action */
   next?: NextAction;
+  /** hook input */
   input?: Message[];
-  output?: string;
+  /** hook response */
+  output?: string | Message[];
+  result?: any;
 }
 
-export interface ResHookFail {
+export type ResHookFail = string | {
   next?: NextAction;
-  input?: Message[];
   output?: string;
   error?: string;
 }
@@ -191,26 +264,7 @@ export interface Mention {
   avatar?: string;
 }
 
-export interface AiMessage {
-  text?: string;
-  type?: string;
-  props?: { [key: string]: any };
-  done?: boolean;
-  new?: boolean;
-  actions?: Action[];
-  attachments?: Attachment[];
-  role?: string;
-  name?: string;
-  assistant_id?: string;
-  assistant_name?: string;
-  assistant_avatar?: string;
-  menions?: Mention[];
-  data?: { [key: string]: any };
-  tool_call_id?: string;
-  tool_calls?: FunctionCall[];
-}
-
 /**
  * Sends a message with an option to save history.
  */
-export declare function Send(str: string | object, saveHistory: boolean): void;
+export declare function Send(str: string | object, saveHistory?: boolean): void;

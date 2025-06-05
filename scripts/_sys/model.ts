@@ -1,5 +1,5 @@
 import { Process } from '@yaoapps/client';
-import { PaginateDataArray } from './lib';
+import { CachedModel, PaginateDataArray, PaginateSearchResult } from './lib';
 
 /**
  * scripts._sys.model.ModelSearch

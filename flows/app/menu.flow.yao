@@ -1,80 +1,105 @@
 {
-  "name": "APP Menu",
-  "nodes": [],
-  "output": {
-    "setting": [
-      {
-        "icon": "icon-user",
-        "name": "管理员",
-        "path": "/x/Table/admin.user",
-        "visible_menu": 0
-      },
-      {
-        "icon": "icon-settings",
-        "id": 999999,
-        "name": "设置",
-        "path": "/x/Table/_sys.model",
-        "dot": true,
-        "visible_menu": 0,
-        "children": [
-          {
-            "name": "模型管理",
-            "path": "/x/Table/_sys.model"
-          },
-          {
-            "name": "系统设置",
-            "path": "/setting"
-          }
+    "name": "APP Menu",
+    "nodes": [],
+    "output": {
+        "setting": [
+            {
+                "icon": "icon-user",
+                "name": "用户管理",
+                "path": "/x/Table/admin.user"
+            },
+            {
+                "name": "模型管理",
+                "path": "/x/Table/_sys.model"
+            },
+            {
+                "name": "系统设置",
+                "path": "/setting"
+            }
+        ],
+        "items": [
+            {
+                "blocks": 0,
+                "icon": "icon-book",
+                "name": "演示",
+                "path": "/x/Dashboard/kanban",
+                "visible_menu": 0,
+                "badge": 6,
+                "children": [
+                    {
+                        "blocks": 0,
+                        "icon": "icon-activity",
+                        "name": "看板",
+                        "path": "/x/Dashboard/kanban",
+                        "visible_menu": 1
+                    },
+                    {
+                        "blocks": 0,
+                        "icon": "icon-activity",
+                        "name": "图表",
+                        "path": "/x/Chart/pet",
+                        "visible_menu": 1
+                    },
+                    {
+                        "blocks": 0,
+                        "name": "表格",
+                        "path": "/x/Table/admin.user",
+                        "visible_menu": 1
+                    },
+                    {
+                        "blocks": 0,
+                        "name": "表单(编辑)",
+                        "path": "/x/Form/admin.user/1/edit",
+                        "visible_menu": 1
+                    },
+                    {
+                        "name": "表单(查看)",
+                        "path": "/x/Form/admin.user/1/view",
+                        "visible_menu": 1
+                    },
+                    {
+                        "name": "自定义页面",
+                        "path": "/iframe?src=/index",
+                        "visible_menu": 1
+                    }
+                ]
+            }
+        ],
+        "quick": [
+            {
+                "icon": "icon-user",
+                "name": "用户管理",
+                "path": "/x/Table/admin.user",
+                "visible_menu": 0
+            },
+            {
+                "id": 0,
+                "key": "/chat",
+                "name": "Chat with Assistant",
+                "path": "/chat",
+                "icon": "material-sms"
+            },
+            {
+                "id": 1,
+                "key": "/assistants",
+                "name": "AI Assistants",
+                "path": "/assistants",
+                "icon": "material-robot_2"
+            },
+            {
+                "id": 2,
+                "key": "open:sidebar",
+                "name": "Open Dashboard",
+                "icon": "material-thumbnail_bar",
+                "path": "open:sidebar"
+            },
+            {
+                "id": 3,
+                "key": "/setting",
+                "name": "Settings",
+                "path": "/setting",
+                "icon": "material-settings"
+            }
         ]
-      }
-    ],
-    "items": [
-      {
-        "blocks": 0,
-        "icon": "icon-book",
-        "name": "演示",
-        "path": "/x/Dashboard/kanban",
-        "visible_menu": 0,
-        "badge": 6,
-        "children": [
-          {
-            "blocks": 0,
-            "icon": "icon-activity",
-            "name": "看板",
-            "path": "/x/Dashboard/kanban",
-            "visible_menu": 1
-          },
-          {
-            "blocks": 0,
-            "icon": "icon-activity",
-            "name": "图表",
-            "path": "/x/Chart/pet",
-            "visible_menu": 1
-          },
-          {
-            "blocks": 0,
-            "name": "表格",
-            "path": "/x/Table/admin.user",
-            "visible_menu": 1
-          },
-          {
-            "blocks": 0,
-            "name": "表单(编辑)",
-            "path": "/x/Form/admin.user/1/edit",
-            "visible_menu": 1
-          },
-          {
-            "name": "表单(查看)",
-            "path": "/x/Form/admin.user/1/view",
-            "visible_menu": 1
-          },
-          {
-            "name": "自定义页面",
-            "path": "/iframe?src=/index",
-            "visible_menu": 1
-          }
-        ]
-      }
-    ]
-  }
+    }
 }

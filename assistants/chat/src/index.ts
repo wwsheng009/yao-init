@@ -1,6 +1,6 @@
 import { ModelProxy } from '@lib/yao_proxy';
 import { IAdminUser } from '@yao/db_types/admin/user';
-import { Message, Send } from '@yao/neo';
+import { context, Message, Send } from '@yao/neo';
 
 
 /**
@@ -74,7 +74,7 @@ ${JSON.stringify(user, null, 2)}
               title: '用户信息',
               actions: [
                 {
-                  namespace: context.pathname,
+                  namespace: context.path,
                   primary: 'id',
                   title: '用户信息',
                   action: [

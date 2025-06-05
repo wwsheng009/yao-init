@@ -21,9 +21,9 @@ auth:
     roles: "roles" #the field name of the user roles, default is roles, it must be an JSON field.
     permission: "permission" #the field name of the user permission, default is permission
   session_fields:
-    id: "id" #the field name of the user id, default is id
+    id: "user_id" #the field name of the user id, default is id
     roles: "user_roles" #the field name of the user roles, default is roles, it must be an JSON field.
-    guest: "guest" #the field name of the guest user, default is guest
+    guest: "guest_id" #the field name of the guest user, default is guest
 
 knowledge:
   vector:

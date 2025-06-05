@@ -1,54 +1,24 @@
 // import { getWebPageContent } from '@lib/web';
-import { neo } from '@yao/neo';
+import { Message, ResHookDone, context, Send, ResHookFail, ResHookRrety, Payload } from '@yao/neo';
 import { FS } from '@yaoapps/client';
 
-declare function Send(message: string | object): void;
 
-/**
- * user request -> [Create hook] -> openai
- *
- * called before the chat with openai.
- *
- * @param input The input message array.
- * @returns A response object containing the next action, input messages, and output data.
- */
-
-export function Create(
-  input: neo.Message[],
-  option: { [key: string]: any }
-): neo.ResHookInit | null | string {
-  const lastMessage = input[input.length - 1];
-
-  // get the assistant_id from the message text where it looks  "@xxxxx"
-  const mentenion_assistant_id = lastMessage.text?.match(/@(\w+)/)?.[1];
-  let new_assistant_id = context.assistant_id;
-
-  if (
-    mentenion_assistant_id &&
-    mentenion_assistant_id !== context.assistant_id
-  ) {
-    new_assistant_id = mentenion_assistant_id;
-  }
-
-  //case 3 returns an object
-  return {
-    assistant_id: new_assistant_id, //optional,change the assistant_id,switch the assistant for following process
-    chat_id: context.chat_id, //optional
-    input: input //optional,修改 the input messages
-  };
+export function Retry(lastInput: string, output: Message[], errorMessage: string): ResHookRrety {
+  return null
 }
-
 /**
  * called only once, when the call openai api done,open ai return messages
  *
- * @param input input messages
- * @param output messages
+ * @param input user input messages
+ * @param output ai model response messages
+ * 
+ * context is the yao neo context, you can get the context from the context object, such as the assistant_id, chat_id, etc.
  * @returns
  */
 export function Done(
-  input: neo.ChatMessage[],
-  output: neo.ChatMessage[]
-): neo.ResHookDone | null {
+  input: Message[],
+  output: Message[]
+): ResHookDone {
   console.log('output');
   console.log(output);
   if (
@@ -118,7 +88,7 @@ export function Done(
               title: '模型信息',
               actions: [
                 {
-                  namespace: context.pathname,
+                  namespace: context.path,
                   primary: 'id',
                   title: '保存模型',
                   action: [
@@ -156,7 +126,7 @@ export function Done(
                   icon: 'icon-save'
                 },
                 {
-                  namespace: context.pathname,
+                  namespace: context.path,
                   primary: 'id',
                   title: '删除模型',
                   action: [
@@ -195,8 +165,17 @@ export function Done(
       return {
         output: [
           { text: '错误的调用，不支持的函数调用：' + funcName }
-        ] as neo.ChatMessage[]
+        ] as Message[]
       };
     }
+  }
+}
+export function Fail(
+  input: Message,
+  errorMessage: string): ResHookFail {
+  return {
+    output: "failed to call openai api",
+    error: errorMessage,
+    next: null,
   }
 }
